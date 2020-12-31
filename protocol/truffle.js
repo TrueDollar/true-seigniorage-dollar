@@ -17,10 +17,12 @@
  * phrase from a file you've .gitignored so it doesn't accidentally become public.
  *
  */
+require('dotenv').config();
 const PrivateKeyProvider = require('truffle-privatekey-provider');
-const privateKey = process.env.DSD_PRIVATE_KEY;
-const infuraId = process.env.DSD_INFURA_ID;
-const etherscanKey = process.env.DSD_ETHERSCAN_KEY;
+const HDWalletProvider = require('@truffle/hdwallet-provider');
+const privateKey = process.env.TSD_PRIVATE_KEY;
+const infuraId = process.env.TSD_INFURA_ID;
+const etherscanKey = process.env.TSD_ETHERSCAN_KEY;
 
 module.exports = {
   /**
@@ -49,11 +51,12 @@ module.exports = {
 
     //Another network with more advanced options...
     mainnet: {
-      provider: () => new PrivateKeyProvider(privateKey, 'https://mainnet.infura.io/v3/' + infuraId),
+      provider: () => new HDWalletProvider(privateKey, 'https://mainnet.infura.io/v3/' + infuraId),
       network_id: 1,          // Mainnet's id
-      gas: 5500000,           // Gas sent with each transaction (default: ~6700000)
-      gasPrice: 20000000000,  // 20 gwei (in wei) (default: 100 gwei)
+      gas: 6700000,           // Gas sent with each transaction (default: ~6700000)
+      gasPrice: 100000000000,  // 100 gwei (in wei) (default: 100 gwei)
       timeoutBlocks: 1440,  // # of blocks before a deployment times out  (minimum/default: 50)
+      skipDryRun: true
     },
 
     // Useful for deploying to a public network.
@@ -68,7 +71,7 @@ module.exports = {
     },
 
     rinkeby: {
-      provider: () => new PrivateKeyProvider(privateKey, 'https://rinkeby.infura.io/v3/' + infuraId),
+      provider: () => new HDWalletProvider(privateKey, 'https://rinkeby.infura.io/v3/' + infuraId),
       network_id: 4,       // rinkeby's id
       gas: 5500000,        // rinkeby has a lower block limit than mainnet
       confirmations: 2,    // # of confs to wait between deployments. (default: 0)

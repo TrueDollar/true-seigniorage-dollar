@@ -1,5 +1,5 @@
 /*
-    Copyright 2020 Dynamic Dollar Devs, based on the works of the Empty Set Squad
+    Copyright 2020 True Seigniorage Dollar Devs, based on the works of the Empty Set Squad and Dynamic Dollar Devs
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -27,7 +27,7 @@ import "./IDollar.sol";
 contract Dollar is IDollar, MinterRole, ERC20Detailed, Permittable, ERC20Burnable  {
 
     constructor()
-    ERC20Detailed("Dynamic Set Dollar", "DSD", 18)
+    ERC20Detailed("True Seigniorage Dollar", "TSD", 18)
     Permittable()
     public
     { }

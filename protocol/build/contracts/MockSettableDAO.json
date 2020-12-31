@@ -32,25 +32,25 @@
       "type": "function"
     }
   ],
-  "metadata": "{\"compiler\":{\"version\":\"0.5.17+commit.d19bba13\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"constant\":true,\"inputs\":[],\"name\":\"epoch\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"epoch\",\"type\":\"uint256\"}],\"name\":\"set\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/home/name/Desktop/Files/projects/dynamic/dollar/protocol/contracts/mock/MockSettableDAO.sol\":\"MockSettableDAO\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"/home/name/Desktop/Files/projects/dynamic/dollar/protocol/contracts/mock/MockSettableDAO.sol\":{\"keccak256\":\"0xe12ae3a698759c3bd7d6aedc5bf54634eae6993e13bc4055debf3edfa3ce7a83\",\"urls\":[\"bzz-raw://a472ca777a0e4da71b3a1b5a7defb8f3f49a7a80ce0fcc0b97843ad7820933ca\",\"dweb:/ipfs/QmWN7xDBgd9CrxHrpwjou8uhzaTRXkwLSKZVTLK14NBZmy\"]},\"/home/name/Desktop/Files/projects/dynamic/dollar/protocol/contracts/oracle/IDAO.sol\":{\"keccak256\":\"0x54f222247eee02dab0f5bc0a663db0d973b5ee75f45cc56c03af8cbe1b0488b4\",\"urls\":[\"bzz-raw://61c7cc14fa5d8fa19f498a486c3d35dbcf2a4c61c37b3f6b96c2d0468589172b\",\"dweb:/ipfs/QmYDn8tiVhsY7SiJVDWwRBY8DvEx32pPsMxYyBe13HXMqV\"]}},\"version\":1}",
-  "bytecode": "0x608060405234801561001057600080fd5b50610112806100206000396000f3fe6080604052348015600f57600080fd5b506004361060325760003560e01c806360fe47b1146037578063900cf0cf146048575b600080fd5b60466042366004607c565b6062565b005b604e6067565b6040516059919060ac565b60405180910390f35b600055565b60005490565b803560768160bb565b92915050565b600060208284031215608d57600080fd5b600060978484606d565b949350505050565b60a68160b8565b82525050565b6020810160768284609f565b90565b60c28160b8565b811460cc57600080fd5b5056fea365627a7a723158207ff40182b5cd983fd05352b98beef066a47f19666a1f6a1fcefef162a23e486c6c6578706572696d656e74616cf564736f6c63430005110040",
-  "deployedBytecode": "0x6080604052348015600f57600080fd5b506004361060325760003560e01c806360fe47b1146037578063900cf0cf146048575b600080fd5b60466042366004607c565b6062565b005b604e6067565b6040516059919060ac565b60405180910390f35b600055565b60005490565b803560768160bb565b92915050565b600060208284031215608d57600080fd5b600060978484606d565b949350505050565b60a68160b8565b82525050565b6020810160768284609f565b90565b60c28160b8565b811460cc57600080fd5b5056fea365627a7a723158207ff40182b5cd983fd05352b98beef066a47f19666a1f6a1fcefef162a23e486c6c6578706572696d656e74616cf564736f6c63430005110040",
-  "sourceMap": "736:224:32:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;736:224:32;;;;;;;",
-  "deployedSourceMap": "736:224:32:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;736:224:32;;;;;;;;;;;;;;;;;;;;;;;;805:68;;;;;;;;;:::i;:::-;;879:79;;;:::i;:::-;;;;;;;;;;;;;;;;805:68;852:6;:14;805:68::o;879:79::-;919:7;945:6;879:79;:::o;5:130:-1:-;72:20;;97:33;72:20;97:33;;;57:78;;;;;142:241;;246:2;234:9;225:7;221:23;217:32;214:2;;;262:1;259;252:12;214:2;297:1;314:53;359:7;339:9;314:53;;;304:63;208:175;-1:-1;;;;208:175;390:113;473:24;491:5;473:24;;;468:3;461:37;455:48;;;510:213;628:2;613:18;;642:71;617:9;686:6;642:71;;730:72;792:5;775:27;809:117;878:24;896:5;878:24;;;871:5;868:35;858:2;;917:1;914;907:12;858:2;852:74;",
-  "source": "/*\n    Copyright 2020 Dynamic Dollar Devs, based on the works of the Empty Set Squad\n\n    Licensed under the Apache License, Version 2.0 (the \"License\");\n    you may not use this file except in compliance with the License.\n    You may obtain a copy of the License at\n\n    http://www.apache.org/licenses/LICENSE-2.0\n\n    Unless required by applicable law or agreed to in writing, software\n    distributed under the License is distributed on an \"AS IS\" BASIS,\n    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n    See the License for the specific language governing permissions and\n    limitations under the License.\n*/\n\npragma solidity ^0.5.17;\npragma experimental ABIEncoderV2;\n\nimport \"../oracle/IDAO.sol\";\n\ncontract MockSettableDAO is IDAO {\n    uint256 internal _epoch;\n\n    function set(uint256 epoch) external {\n        _epoch = epoch;\n    }\n\n    function epoch() external view returns (uint256) {\n        return _epoch;\n    }\n}\n",
-  "sourcePath": "/home/name/Desktop/Files/projects/dynamic/dollar/protocol/contracts/mock/MockSettableDAO.sol",
+  "metadata": "{\"compiler\":{\"version\":\"0.5.17+commit.d19bba13\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"constant\":true,\"inputs\":[],\"name\":\"epoch\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"epoch\",\"type\":\"uint256\"}],\"name\":\"set\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/Volumes/Data/Code/planb/true-seigniorage-dollar/protocol/contracts/mock/MockSettableDAO.sol\":\"MockSettableDAO\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"/Volumes/Data/Code/planb/true-seigniorage-dollar/protocol/contracts/mock/MockSettableDAO.sol\":{\"keccak256\":\"0x2d2fb3ff7d9ee59813039fd5a33576d8b7ad7469d281d53d00f8e9cd284b8b41\",\"urls\":[\"bzz-raw://2d354cfb038fb261d38e7cae43f76cb684ddb08c9fc9828ad84c362beadf3adc\",\"dweb:/ipfs/QmTYwuufWDCYUAjEX7shSseQg1AcZqbkjAm2FBqHnxD3DC\"]},\"/Volumes/Data/Code/planb/true-seigniorage-dollar/protocol/contracts/oracle/IDAO.sol\":{\"keccak256\":\"0x7b1afe85cb24628245bcc14ef797e1f7d2e2f02ddd0d619d0e9869c7fbec5d83\",\"urls\":[\"bzz-raw://be96cc70519e0b377e43658e652a829c41b8a64d816ba5c9ccc865113858ee47\",\"dweb:/ipfs/QmT8kKQ71r7DqRYkoZVuYAJwAfU2dKRDQZT6xipmKntebH\"]}},\"version\":1}",
+  "bytecode": "0x608060405234801561001057600080fd5b50610112806100206000396000f3fe6080604052348015600f57600080fd5b506004361060325760003560e01c806360fe47b1146037578063900cf0cf146048575b600080fd5b60466042366004607c565b6062565b005b604e6067565b6040516059919060ac565b60405180910390f35b600055565b60005490565b803560768160bb565b92915050565b600060208284031215608d57600080fd5b600060978484606d565b949350505050565b60a68160b8565b82525050565b6020810160768284609f565b90565b60c28160b8565b811460cc57600080fd5b5056fea365627a7a72315820b414f98040616dc6b55d7a03e9bf0692a925bc0f5438a9647bb435e588103c576c6578706572696d656e74616cf564736f6c63430005110040",
+  "deployedBytecode": "0x6080604052348015600f57600080fd5b506004361060325760003560e01c806360fe47b1146037578063900cf0cf146048575b600080fd5b60466042366004607c565b6062565b005b604e6067565b6040516059919060ac565b60405180910390f35b600055565b60005490565b803560768160bb565b92915050565b600060208284031215608d57600080fd5b600060978484606d565b949350505050565b60a68160b8565b82525050565b6020810160768284609f565b90565b60c28160b8565b811460cc57600080fd5b5056fea365627a7a72315820b414f98040616dc6b55d7a03e9bf0692a925bc0f5438a9647bb435e588103c576c6578706572696d656e74616cf564736f6c63430005110040",
+  "sourceMap": "769:224:32:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;769:224:32;;;;;;;",
+  "deployedSourceMap": "769:224:32:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;769:224:32;;;;;;;;;;;;;;;;;;;;;;;;838:68;;;;;;;;;:::i;:::-;;912:79;;;:::i;:::-;;;;;;;;;;;;;;;;838:68;885:6;:14;838:68::o;912:79::-;952:7;978:6;912:79;:::o;5:130:-1:-;72:20;;97:33;72:20;97:33;;;57:78;;;;;142:241;;246:2;234:9;225:7;221:23;217:32;214:2;;;262:1;259;252:12;214:2;297:1;314:53;359:7;339:9;314:53;;;304:63;208:175;-1:-1;;;;208:175;390:113;473:24;491:5;473:24;;;468:3;461:37;455:48;;;510:213;628:2;613:18;;642:71;617:9;686:6;642:71;;730:72;792:5;775:27;809:117;878:24;896:5;878:24;;;871:5;868:35;858:2;;917:1;914;907:12;858:2;852:74;",
+  "source": "/*\n    Copyright 2020 True Seigniorage Dollar Devs, based on the works of the Empty Set Squad and Dynamic Dollar Devs\n\n    Licensed under the Apache License, Version 2.0 (the \"License\");\n    you may not use this file except in compliance with the License.\n    You may obtain a copy of the License at\n\n    http://www.apache.org/licenses/LICENSE-2.0\n\n    Unless required by applicable law or agreed to in writing, software\n    distributed under the License is distributed on an \"AS IS\" BASIS,\n    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n    See the License for the specific language governing permissions and\n    limitations under the License.\n*/\n\npragma solidity ^0.5.17;\npragma experimental ABIEncoderV2;\n\nimport \"../oracle/IDAO.sol\";\n\ncontract MockSettableDAO is IDAO {\n    uint256 internal _epoch;\n\n    function set(uint256 epoch) external {\n        _epoch = epoch;\n    }\n\n    function epoch() external view returns (uint256) {\n        return _epoch;\n    }\n}\n",
+  "sourcePath": "/Volumes/Data/Code/planb/true-seigniorage-dollar/protocol/contracts/mock/MockSettableDAO.sol",
   "ast": {
-    "absolutePath": "/home/name/Desktop/Files/projects/dynamic/dollar/protocol/contracts/mock/MockSettableDAO.sol",
+    "absolutePath": "/Volumes/Data/Code/planb/true-seigniorage-dollar/protocol/contracts/mock/MockSettableDAO.sol",
     "exportedSymbols": {
       "MockSettableDAO": [
-        6809
+        7071
       ]
     },
-    "id": 6810,
+    "id": 7072,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 6784,
+        "id": 7046,
         "literals": [
           "solidity",
           "^",
@@ -58,25 +58,25 @@
           ".17"
         ],
         "nodeType": "PragmaDirective",
-        "src": "646:24:32"
+        "src": "679:24:32"
       },
       {
-        "id": 6785,
+        "id": 7047,
         "literals": [
           "experimental",
           "ABIEncoderV2"
         ],
         "nodeType": "PragmaDirective",
-        "src": "671:33:32"
+        "src": "704:33:32"
       },
       {
-        "absolutePath": "/home/name/Desktop/Files/projects/dynamic/dollar/protocol/contracts/oracle/IDAO.sol",
+        "absolutePath": "/Volumes/Data/Code/planb/true-seigniorage-dollar/protocol/contracts/oracle/IDAO.sol",
         "file": "../oracle/IDAO.sol",
-        "id": 6786,
+        "id": 7048,
         "nodeType": "ImportDirective",
-        "scope": 6810,
-        "sourceUnit": 8592,
-        "src": "706:28:32",
+        "scope": 7072,
+        "sourceUnit": 8854,
+        "src": "739:28:32",
         "symbolAliases": [],
         "unitAlias": ""
       },
@@ -86,42 +86,42 @@
             "arguments": null,
             "baseName": {
               "contractScope": null,
-              "id": 6787,
+              "id": 7049,
               "name": "IDAO",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 8591,
-              "src": "764:4:32",
+              "referencedDeclaration": 8853,
+              "src": "797:4:32",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_IDAO_$8591",
+                "typeIdentifier": "t_contract$_IDAO_$8853",
                 "typeString": "contract IDAO"
               }
             },
-            "id": 6788,
+            "id": 7050,
             "nodeType": "InheritanceSpecifier",
-            "src": "764:4:32"
+            "src": "797:4:32"
           }
         ],
         "contractDependencies": [
-          8591
+          8853
         ],
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 6809,
+        "id": 7071,
         "linearizedBaseContracts": [
-          6809,
-          8591
+          7071,
+          8853
         ],
         "name": "MockSettableDAO",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "constant": false,
-            "id": 6790,
+            "id": 7052,
             "name": "_epoch",
             "nodeType": "VariableDeclaration",
-            "scope": 6809,
-            "src": "775:23:32",
+            "scope": 7071,
+            "src": "808:23:32",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
@@ -129,10 +129,10 @@
               "typeString": "uint256"
             },
             "typeName": {
-              "id": 6789,
+              "id": 7051,
               "name": "uint256",
               "nodeType": "ElementaryTypeName",
-              "src": "775:7:32",
+              "src": "808:7:32",
               "typeDescriptions": {
                 "typeIdentifier": "t_uint256",
                 "typeString": "uint256"
@@ -143,26 +143,26 @@
           },
           {
             "body": {
-              "id": 6799,
+              "id": 7061,
               "nodeType": "Block",
-              "src": "842:31:32",
+              "src": "875:31:32",
               "statements": [
                 {
                   "expression": {
                     "argumentTypes": null,
-                    "id": 6797,
+                    "id": 7059,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
                     "lValueRequested": false,
                     "leftHandSide": {
                       "argumentTypes": null,
-                      "id": 6795,
+                      "id": 7057,
                       "name": "_epoch",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 6790,
-                      "src": "852:6:32",
+                      "referencedDeclaration": 7052,
+                      "src": "885:6:32",
                       "typeDescriptions": {
                         "typeIdentifier": "t_uint256",
                         "typeString": "uint256"
@@ -172,47 +172,47 @@
                     "operator": "=",
                     "rightHandSide": {
                       "argumentTypes": null,
-                      "id": 6796,
+                      "id": 7058,
                       "name": "epoch",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 6792,
-                      "src": "861:5:32",
+                      "referencedDeclaration": 7054,
+                      "src": "894:5:32",
                       "typeDescriptions": {
                         "typeIdentifier": "t_uint256",
                         "typeString": "uint256"
                       }
                     },
-                    "src": "852:14:32",
+                    "src": "885:14:32",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
                     }
                   },
-                  "id": 6798,
+                  "id": 7060,
                   "nodeType": "ExpressionStatement",
-                  "src": "852:14:32"
+                  "src": "885:14:32"
                 }
               ]
             },
             "documentation": null,
-            "id": 6800,
+            "id": 7062,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "set",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 6793,
+              "id": 7055,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 6792,
+                  "id": 7054,
                   "name": "epoch",
                   "nodeType": "VariableDeclaration",
-                  "scope": 6800,
-                  "src": "818:13:32",
+                  "scope": 7062,
+                  "src": "851:13:32",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -220,10 +220,10 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 6791,
+                    "id": 7053,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "818:7:32",
+                    "src": "851:7:32",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -233,71 +233,71 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "817:15:32"
+              "src": "850:15:32"
             },
             "returnParameters": {
-              "id": 6794,
+              "id": 7056,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "842:0:32"
+              "src": "875:0:32"
             },
-            "scope": 6809,
-            "src": "805:68:32",
+            "scope": 7071,
+            "src": "838:68:32",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "external"
           },
           {
             "body": {
-              "id": 6807,
+              "id": 7069,
               "nodeType": "Block",
-              "src": "928:30:32",
+              "src": "961:30:32",
               "statements": [
                 {
                   "expression": {
                     "argumentTypes": null,
-                    "id": 6805,
+                    "id": 7067,
                     "name": "_epoch",
                     "nodeType": "Identifier",
                     "overloadedDeclarations": [],
-                    "referencedDeclaration": 6790,
-                    "src": "945:6:32",
+                    "referencedDeclaration": 7052,
+                    "src": "978:6:32",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
                     }
                   },
-                  "functionReturnParameters": 6804,
-                  "id": 6806,
+                  "functionReturnParameters": 7066,
+                  "id": 7068,
                   "nodeType": "Return",
-                  "src": "938:13:32"
+                  "src": "971:13:32"
                 }
               ]
             },
             "documentation": null,
-            "id": 6808,
+            "id": 7070,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "epoch",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 6801,
+              "id": 7063,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "893:2:32"
+              "src": "926:2:32"
             },
             "returnParameters": {
-              "id": 6804,
+              "id": 7066,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 6803,
+                  "id": 7065,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 6808,
-                  "src": "919:7:32",
+                  "scope": 7070,
+                  "src": "952:7:32",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -305,10 +305,10 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 6802,
+                    "id": 7064,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "919:7:32",
+                    "src": "952:7:32",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -318,322 +318,369 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "918:9:32"
+              "src": "951:9:32"
             },
-            "scope": 6809,
-            "src": "879:79:32",
+            "scope": 7071,
+            "src": "912:79:32",
             "stateMutability": "view",
-            "superFunction": 8590,
+            "superFunction": 8852,
             "visibility": "external"
           }
         ],
-        "scope": 6810,
-        "src": "736:224:32"
+        "scope": 7072,
+        "src": "769:224:32"
       }
     ],
-    "src": "646:315:32"
+    "src": "679:315:32"
   },
   "legacyAST": {
-    "absolutePath": "/home/name/Desktop/Files/projects/dynamic/dollar/protocol/contracts/mock/MockSettableDAO.sol",
-    "exportedSymbols": {
-      "MockSettableDAO": [
-        6809
-      ]
+    "attributes": {
+      "absolutePath": "/Volumes/Data/Code/planb/true-seigniorage-dollar/protocol/contracts/mock/MockSettableDAO.sol",
+      "exportedSymbols": {
+        "MockSettableDAO": [
+          7071
+        ]
+      }
     },
-    "id": 6810,
-    "nodeType": "SourceUnit",
-    "nodes": [
+    "children": [
       {
-        "id": 6784,
-        "literals": [
-          "solidity",
-          "^",
-          "0.5",
-          ".17"
-        ],
-        "nodeType": "PragmaDirective",
-        "src": "646:24:32"
+        "attributes": {
+          "literals": [
+            "solidity",
+            "^",
+            "0.5",
+            ".17"
+          ]
+        },
+        "id": 7046,
+        "name": "PragmaDirective",
+        "src": "679:24:32"
       },
       {
-        "id": 6785,
-        "literals": [
-          "experimental",
-          "ABIEncoderV2"
-        ],
-        "nodeType": "PragmaDirective",
-        "src": "671:33:32"
+        "attributes": {
+          "literals": [
+            "experimental",
+            "ABIEncoderV2"
+          ]
+        },
+        "id": 7047,
+        "name": "PragmaDirective",
+        "src": "704:33:32"
       },
       {
-        "absolutePath": "/home/name/Desktop/Files/projects/dynamic/dollar/protocol/contracts/oracle/IDAO.sol",
-        "file": "../oracle/IDAO.sol",
-        "id": 6786,
-        "nodeType": "ImportDirective",
-        "scope": 6810,
-        "sourceUnit": 8592,
-        "src": "706:28:32",
-        "symbolAliases": [],
-        "unitAlias": ""
+        "attributes": {
+          "SourceUnit": 8854,
+          "absolutePath": "/Volumes/Data/Code/planb/true-seigniorage-dollar/protocol/contracts/oracle/IDAO.sol",
+          "file": "../oracle/IDAO.sol",
+          "scope": 7072,
+          "symbolAliases": [
+            null
+          ],
+          "unitAlias": ""
+        },
+        "id": 7048,
+        "name": "ImportDirective",
+        "src": "739:28:32"
       },
       {
-        "baseContracts": [
+        "attributes": {
+          "contractDependencies": [
+            8853
+          ],
+          "contractKind": "contract",
+          "documentation": null,
+          "fullyImplemented": true,
+          "linearizedBaseContracts": [
+            7071,
+            8853
+          ],
+          "name": "MockSettableDAO",
+          "scope": 7072
+        },
+        "children": [
           {
-            "arguments": null,
-            "baseName": {
-              "contractScope": null,
-              "id": 6787,
-              "name": "IDAO",
-              "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 8591,
-              "src": "764:4:32",
-              "typeDescriptions": {
-                "typeIdentifier": "t_contract$_IDAO_$8591",
-                "typeString": "contract IDAO"
+            "attributes": {
+              "arguments": null
+            },
+            "children": [
+              {
+                "attributes": {
+                  "contractScope": null,
+                  "name": "IDAO",
+                  "referencedDeclaration": 8853,
+                  "type": "contract IDAO"
+                },
+                "id": 7049,
+                "name": "UserDefinedTypeName",
+                "src": "797:4:32"
               }
-            },
-            "id": 6788,
-            "nodeType": "InheritanceSpecifier",
-            "src": "764:4:32"
-          }
-        ],
-        "contractDependencies": [
-          8591
-        ],
-        "contractKind": "contract",
-        "documentation": null,
-        "fullyImplemented": true,
-        "id": 6809,
-        "linearizedBaseContracts": [
-          6809,
-          8591
-        ],
-        "name": "MockSettableDAO",
-        "nodeType": "ContractDefinition",
-        "nodes": [
-          {
-            "constant": false,
-            "id": 6790,
-            "name": "_epoch",
-            "nodeType": "VariableDeclaration",
-            "scope": 6809,
-            "src": "775:23:32",
-            "stateVariable": true,
-            "storageLocation": "default",
-            "typeDescriptions": {
-              "typeIdentifier": "t_uint256",
-              "typeString": "uint256"
-            },
-            "typeName": {
-              "id": 6789,
-              "name": "uint256",
-              "nodeType": "ElementaryTypeName",
-              "src": "775:7:32",
-              "typeDescriptions": {
-                "typeIdentifier": "t_uint256",
-                "typeString": "uint256"
-              }
-            },
-            "value": null,
-            "visibility": "internal"
+            ],
+            "id": 7050,
+            "name": "InheritanceSpecifier",
+            "src": "797:4:32"
           },
           {
-            "body": {
-              "id": 6799,
-              "nodeType": "Block",
-              "src": "842:31:32",
-              "statements": [
-                {
-                  "expression": {
-                    "argumentTypes": null,
-                    "id": 6797,
-                    "isConstant": false,
-                    "isLValue": false,
-                    "isPure": false,
-                    "lValueRequested": false,
-                    "leftHandSide": {
-                      "argumentTypes": null,
-                      "id": 6795,
-                      "name": "_epoch",
-                      "nodeType": "Identifier",
-                      "overloadedDeclarations": [],
-                      "referencedDeclaration": 6790,
-                      "src": "852:6:32",
-                      "typeDescriptions": {
-                        "typeIdentifier": "t_uint256",
-                        "typeString": "uint256"
-                      }
-                    },
-                    "nodeType": "Assignment",
-                    "operator": "=",
-                    "rightHandSide": {
-                      "argumentTypes": null,
-                      "id": 6796,
+            "attributes": {
+              "constant": false,
+              "name": "_epoch",
+              "scope": 7071,
+              "stateVariable": true,
+              "storageLocation": "default",
+              "type": "uint256",
+              "value": null,
+              "visibility": "internal"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "name": "uint256",
+                  "type": "uint256"
+                },
+                "id": 7051,
+                "name": "ElementaryTypeName",
+                "src": "808:7:32"
+              }
+            ],
+            "id": 7052,
+            "name": "VariableDeclaration",
+            "src": "808:23:32"
+          },
+          {
+            "attributes": {
+              "documentation": null,
+              "implemented": true,
+              "isConstructor": false,
+              "kind": "function",
+              "modifiers": [
+                null
+              ],
+              "name": "set",
+              "scope": 7071,
+              "stateMutability": "nonpayable",
+              "superFunction": null,
+              "visibility": "external"
+            },
+            "children": [
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
                       "name": "epoch",
-                      "nodeType": "Identifier",
-                      "overloadedDeclarations": [],
-                      "referencedDeclaration": 6792,
-                      "src": "861:5:32",
-                      "typeDescriptions": {
-                        "typeIdentifier": "t_uint256",
-                        "typeString": "uint256"
-                      }
+                      "scope": 7062,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint256",
+                      "value": null,
+                      "visibility": "internal"
                     },
-                    "src": "852:14:32",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_uint256",
-                      "typeString": "uint256"
-                    }
-                  },
-                  "id": 6798,
-                  "nodeType": "ExpressionStatement",
-                  "src": "852:14:32"
-                }
-              ]
-            },
-            "documentation": null,
-            "id": 6800,
-            "implemented": true,
-            "kind": "function",
-            "modifiers": [],
-            "name": "set",
-            "nodeType": "FunctionDefinition",
-            "parameters": {
-              "id": 6793,
-              "nodeType": "ParameterList",
-              "parameters": [
-                {
-                  "constant": false,
-                  "id": 6792,
-                  "name": "epoch",
-                  "nodeType": "VariableDeclaration",
-                  "scope": 6800,
-                  "src": "818:13:32",
-                  "stateVariable": false,
-                  "storageLocation": "default",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_uint256",
-                    "typeString": "uint256"
-                  },
-                  "typeName": {
-                    "id": 6791,
-                    "name": "uint256",
-                    "nodeType": "ElementaryTypeName",
-                    "src": "818:7:32",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_uint256",
-                      "typeString": "uint256"
-                    }
-                  },
-                  "value": null,
-                  "visibility": "internal"
-                }
-              ],
-              "src": "817:15:32"
-            },
-            "returnParameters": {
-              "id": 6794,
-              "nodeType": "ParameterList",
-              "parameters": [],
-              "src": "842:0:32"
-            },
-            "scope": 6809,
-            "src": "805:68:32",
-            "stateMutability": "nonpayable",
-            "superFunction": null,
-            "visibility": "external"
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint256",
+                          "type": "uint256"
+                        },
+                        "id": 7053,
+                        "name": "ElementaryTypeName",
+                        "src": "851:7:32"
+                      }
+                    ],
+                    "id": 7054,
+                    "name": "VariableDeclaration",
+                    "src": "851:13:32"
+                  }
+                ],
+                "id": 7055,
+                "name": "ParameterList",
+                "src": "850:15:32"
+              },
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 7056,
+                "name": "ParameterList",
+                "src": "875:0:32"
+              },
+              {
+                "children": [
+                  {
+                    "children": [
+                      {
+                        "attributes": {
+                          "argumentTypes": null,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "operator": "=",
+                          "type": "uint256"
+                        },
+                        "children": [
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "overloadedDeclarations": [
+                                null
+                              ],
+                              "referencedDeclaration": 7052,
+                              "type": "uint256",
+                              "value": "_epoch"
+                            },
+                            "id": 7057,
+                            "name": "Identifier",
+                            "src": "885:6:32"
+                          },
+                          {
+                            "attributes": {
+                              "argumentTypes": null,
+                              "overloadedDeclarations": [
+                                null
+                              ],
+                              "referencedDeclaration": 7054,
+                              "type": "uint256",
+                              "value": "epoch"
+                            },
+                            "id": 7058,
+                            "name": "Identifier",
+                            "src": "894:5:32"
+                          }
+                        ],
+                        "id": 7059,
+                        "name": "Assignment",
+                        "src": "885:14:32"
+                      }
+                    ],
+                    "id": 7060,
+                    "name": "ExpressionStatement",
+                    "src": "885:14:32"
+                  }
+                ],
+                "id": 7061,
+                "name": "Block",
+                "src": "875:31:32"
+              }
+            ],
+            "id": 7062,
+            "name": "FunctionDefinition",
+            "src": "838:68:32"
           },
           {
-            "body": {
-              "id": 6807,
-              "nodeType": "Block",
-              "src": "928:30:32",
-              "statements": [
-                {
-                  "expression": {
-                    "argumentTypes": null,
-                    "id": 6805,
-                    "name": "_epoch",
-                    "nodeType": "Identifier",
-                    "overloadedDeclarations": [],
-                    "referencedDeclaration": 6790,
-                    "src": "945:6:32",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_uint256",
-                      "typeString": "uint256"
-                    }
-                  },
-                  "functionReturnParameters": 6804,
-                  "id": 6806,
-                  "nodeType": "Return",
-                  "src": "938:13:32"
-                }
-              ]
-            },
-            "documentation": null,
-            "id": 6808,
-            "implemented": true,
-            "kind": "function",
-            "modifiers": [],
-            "name": "epoch",
-            "nodeType": "FunctionDefinition",
-            "parameters": {
-              "id": 6801,
-              "nodeType": "ParameterList",
-              "parameters": [],
-              "src": "893:2:32"
-            },
-            "returnParameters": {
-              "id": 6804,
-              "nodeType": "ParameterList",
-              "parameters": [
-                {
-                  "constant": false,
-                  "id": 6803,
-                  "name": "",
-                  "nodeType": "VariableDeclaration",
-                  "scope": 6808,
-                  "src": "919:7:32",
-                  "stateVariable": false,
-                  "storageLocation": "default",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_uint256",
-                    "typeString": "uint256"
-                  },
-                  "typeName": {
-                    "id": 6802,
-                    "name": "uint256",
-                    "nodeType": "ElementaryTypeName",
-                    "src": "919:7:32",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_uint256",
-                      "typeString": "uint256"
-                    }
-                  },
-                  "value": null,
-                  "visibility": "internal"
-                }
+            "attributes": {
+              "documentation": null,
+              "implemented": true,
+              "isConstructor": false,
+              "kind": "function",
+              "modifiers": [
+                null
               ],
-              "src": "918:9:32"
+              "name": "epoch",
+              "scope": 7071,
+              "stateMutability": "view",
+              "superFunction": 8852,
+              "visibility": "external"
             },
-            "scope": 6809,
-            "src": "879:79:32",
-            "stateMutability": "view",
-            "superFunction": 8590,
-            "visibility": "external"
+            "children": [
+              {
+                "attributes": {
+                  "parameters": [
+                    null
+                  ]
+                },
+                "children": [],
+                "id": 7063,
+                "name": "ParameterList",
+                "src": "926:2:32"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "",
+                      "scope": 7070,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "uint256",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint256",
+                          "type": "uint256"
+                        },
+                        "id": 7064,
+                        "name": "ElementaryTypeName",
+                        "src": "952:7:32"
+                      }
+                    ],
+                    "id": 7065,
+                    "name": "VariableDeclaration",
+                    "src": "952:7:32"
+                  }
+                ],
+                "id": 7066,
+                "name": "ParameterList",
+                "src": "951:9:32"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "functionReturnParameters": 7066
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "argumentTypes": null,
+                          "overloadedDeclarations": [
+                            null
+                          ],
+                          "referencedDeclaration": 7052,
+                          "type": "uint256",
+                          "value": "_epoch"
+                        },
+                        "id": 7067,
+                        "name": "Identifier",
+                        "src": "978:6:32"
+                      }
+                    ],
+                    "id": 7068,
+                    "name": "Return",
+                    "src": "971:13:32"
+                  }
+                ],
+                "id": 7069,
+                "name": "Block",
+                "src": "961:30:32"
+              }
+            ],
+            "id": 7070,
+            "name": "FunctionDefinition",
+            "src": "912:79:32"
           }
         ],
-        "scope": 6810,
-        "src": "736:224:32"
+        "id": 7071,
+        "name": "ContractDefinition",
+        "src": "769:224:32"
       }
     ],
-    "src": "646:315:32"
+    "id": 7072,
+    "name": "SourceUnit",
+    "src": "679:315:32"
   },
   "compiler": {
     "name": "solc",
     "version": "0.5.17+commit.d19bba13.Emscripten.clang"
   },
   "networks": {},
-  "schemaVersion": "3.3.1",
-  "updatedAt": "2020-11-25T22:34:45.269Z",
+  "schemaVersion": "3.3.3",
+  "updatedAt": "2020-12-31T12:42:20.844Z",
   "devdoc": {
     "methods": {}
   },

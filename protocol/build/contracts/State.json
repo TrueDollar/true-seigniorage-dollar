@@ -1,37 +1,37 @@
 {
   "contractName": "State",
   "abi": [],
-  "metadata": "{\"compiler\":{\"version\":\"0.5.17+commit.d19bba13\"},\"language\":\"Solidity\",\"output\":{\"abi\":[],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/home/name/Desktop/Files/projects/dynamic/dollar/protocol/contracts/dao/State.sol\":\"State\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"/home/name/Desktop/Files/projects/dynamic/dollar/protocol/contracts/dao/State.sol\":{\"keccak256\":\"0xa86fb2766844590a186ca8064ae94851cef138c81f8780890dd42ea5d0cd7f84\",\"urls\":[\"bzz-raw://ae3ede8b478efef930bbeaf6ea55242d89ca2e22171c2868fbb86355a8458689\",\"dweb:/ipfs/QmQJV94SZbwDoaZr8ZnpYkAbRBLjdjWdfyjswo2LSYypjz\"]},\"/home/name/Desktop/Files/projects/dynamic/dollar/protocol/contracts/external/Decimal.sol\":{\"keccak256\":\"0x30e09d378faf66b3a145053b10b88ff1e82767bed24ed20191d5359431904a33\",\"urls\":[\"bzz-raw://16580a28ab63a9b862342ff81b084eec5ccee04889e4240d77a7407507ec5aad\",\"dweb:/ipfs/QmZ1ryrLYrLu4UvtQQic5wnzkmhQMHWqpf4swkmNiKNhr7\"]},\"/home/name/Desktop/Files/projects/dynamic/dollar/protocol/contracts/oracle/IOracle.sol\":{\"keccak256\":\"0x6226531e2530a21ac4af9b6f66a4ad164df392f65b811476578a5a2cd245bb08\",\"urls\":[\"bzz-raw://b135160ee7c29a3347f29cfc5ba4cad7e0a09579e64bd291df833a143ed47c9d\",\"dweb:/ipfs/QmNxnPcKAomHGE5ZjmrUiyM4mFDBC1AwtKFhzeK6Wx87kD\"]},\"/home/name/Desktop/Files/projects/dynamic/dollar/protocol/contracts/token/IDollar.sol\":{\"keccak256\":\"0xecc042c5725b0527c0600d51b363c95c0ed3f550b84df58526eed7486b5d7389\",\"urls\":[\"bzz-raw://34341e2fcb5d0038105bf54b1beab508e063e4f47bab1f6dcb397200f2bf569b\",\"dweb:/ipfs/QmeT36ma9bZpRVx4CxYPvvU1aTgVXUUdcrhUzooqC3jY2S\"]},\"@openzeppelin/contracts/math/SafeMath.sol\":{\"keccak256\":\"0x640b6dee7a4b830bdfd52b5031a07fc2b12209f5b2e29e5d364a7d37f69d8076\",\"urls\":[\"bzz-raw://31113152e1ddb78fe7a4197f247591ca894e93f916867beb708d8e747b6cc74f\",\"dweb:/ipfs/QmbZaJyXdpsYGykVhHH9qpVGQg9DGCxE2QufbCUy3daTgq\"]},\"@openzeppelin/contracts/token/ERC20/IERC20.sol\":{\"keccak256\":\"0xe5bb0f57cff3e299f360052ba50f1ea0fff046df2be070b6943e0e3c3fdad8a9\",\"urls\":[\"bzz-raw://59fd025151435da35faa8093a5c7a17de02de9d08ad27275c5cdf05050820d91\",\"dweb:/ipfs/QmQMvwEcPhoRXzbXyrdoeRtvLoifUW9Qh7Luho7bmUPRkc\"]},\"@uniswap/v2-core/contracts/interfaces/IUniswapV2Pair.sol\":{\"keccak256\":\"0x7c9bc70e5996c763e02ff38905282bc24fb242b0ef2519a003b36824fc524a4b\",\"urls\":[\"bzz-raw://85d5ad2dd23ee127f40907a12865a1e8cb5828814f6f2480285e1827dd72dedf\",\"dweb:/ipfs/QmayKQWJgWmr46DqWseADyUanmqxh662hPNdAkdHRjiQQH\"]}},\"version\":1}",
-  "bytecode": "0x6080604052348015600f57600080fd5b50604c80601d6000396000f3fe6080604052600080fdfea365627a7a72315820b212970c4820dc7fa4394cbac5de45fa72dadfc61ece883c92faab375e7fe8726c6578706572696d656e74616cf564736f6c63430005110040",
-  "deployedBytecode": "0x6080604052600080fdfea365627a7a72315820b212970c4820dc7fa4394cbac5de45fa72dadfc61ece883c92faab375e7fe8726c6578706572696d656e74616cf564736f6c63430005110040",
-  "sourceMap": "2343:44:14:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;2343:44:14;;;;;;;",
-  "deployedSourceMap": "2343:44:14:-;;;;;",
-  "source": "/*\n    Copyright 2020 Dynamic Dollar Devs, based on the works of the Empty Set Squad\n\n    Licensed under the Apache License, Version 2.0 (the \"License\");\n    you may not use this file except in compliance with the License.\n    You may obtain a copy of the License at\n\n    http://www.apache.org/licenses/LICENSE-2.0\n\n    Unless required by applicable law or agreed to in writing, software\n    distributed under the License is distributed on an \"AS IS\" BASIS,\n    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n    See the License for the specific language governing permissions and\n    limitations under the License.\n*/\n\npragma solidity ^0.5.17;\npragma experimental ABIEncoderV2;\n\nimport '@uniswap/v2-core/contracts/interfaces/IUniswapV2Pair.sol';\nimport \"../token/IDollar.sol\";\nimport \"../oracle/IOracle.sol\";\nimport \"../external/Decimal.sol\";\n\ncontract Account {\n    enum Status {\n        Frozen,\n        Fluid,\n        Locked\n    }\n\n    struct State {\n        uint256 staged;\n        uint256 balance;\n        mapping(uint256 => uint256) coupons;\n        mapping(address => uint256) couponAllowances;\n        uint256 fluidUntil;\n        uint256 lockedUntil;\n    }\n}\n\ncontract Epoch {\n    struct Global {\n        uint256 start;\n        uint256 period;\n        uint256 current;\n    }\n\n    struct Coupons {\n        uint256 outstanding;\n        uint256 expiration;\n        uint256[] expiring;\n    }\n\n    struct State {\n        uint256 bonded;\n        Coupons coupons;\n    }\n}\n\ncontract Candidate {\n    enum Vote {\n        UNDECIDED,\n        APPROVE,\n        REJECT\n    }\n\n    struct State {\n        uint256 start;\n        uint256 period;\n        uint256 approve;\n        uint256 reject;\n        mapping(address => Vote) votes;\n        bool initialized;\n    }\n}\n\ncontract Storage {\n    struct Provider {\n        IDollar dollar;\n        IOracle oracle;\n        address pool;\n    }\n\n    struct Balance {\n        uint256 supply;\n        uint256 bonded;\n        uint256 staged;\n        uint256 redeemable;\n        uint256 debt;\n        uint256 coupons;\n    }\n\n    struct State {\n        Epoch.Global epoch;\n        Balance balance;\n        Provider provider;\n\n        mapping(address => Account.State) accounts;\n        mapping(uint256 => Epoch.State) epochs;\n        mapping(address => Candidate.State) candidates;\n    }\n}\n\ncontract State {\n    Storage.State _state;\n}\n",
-  "sourcePath": "/home/name/Desktop/Files/projects/dynamic/dollar/protocol/contracts/dao/State.sol",
+  "metadata": "{\"compiler\":{\"version\":\"0.5.17+commit.d19bba13\"},\"language\":\"Solidity\",\"output\":{\"abi\":[],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/Volumes/Data/Code/planb/true-seigniorage-dollar/protocol/contracts/dao/State.sol\":\"State\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"/Volumes/Data/Code/planb/true-seigniorage-dollar/protocol/contracts/dao/State.sol\":{\"keccak256\":\"0x77a419532f452aa8f1095bfc74209a80597e8260d3a81c71fbf63f7077ea1aab\",\"urls\":[\"bzz-raw://328758d852c234ee8aa3de785f4c26e48d57a2c658dc47025577fce53cdade5d\",\"dweb:/ipfs/QmUzMSJWCeoFK7cyrcyE86oV3hPCEzB9HKMbskipXdbMMX\"]},\"/Volumes/Data/Code/planb/true-seigniorage-dollar/protocol/contracts/external/Decimal.sol\":{\"keccak256\":\"0x6d6b64b42177b5f07e1e243c6d4a0439859602f351c11705298fdcfcc07f3754\",\"urls\":[\"bzz-raw://27abbef20093e8c6f3b1c1bee447d421ef0337e1e6ee631ebfd8e1fbcc2e3f93\",\"dweb:/ipfs/QmWUiY6nACuzTHYyN4NReUV7SN6b5fsdk7J6H6tbwsFQSa\"]},\"/Volumes/Data/Code/planb/true-seigniorage-dollar/protocol/contracts/oracle/IOracle.sol\":{\"keccak256\":\"0x2584eb2f217acc1047a53a92f0b4066d725dd6d4ae738501563de0c277e3a585\",\"urls\":[\"bzz-raw://e7222b636a4e66298b3932d1e3682ec4e5bf7631065a0e9475b2b9b7bb8a28b2\",\"dweb:/ipfs/QmYQWYp43xDVfztZgg49AzjgC6tTUYnytN6Paqh94qXf6f\"]},\"/Volumes/Data/Code/planb/true-seigniorage-dollar/protocol/contracts/token/IDollar.sol\":{\"keccak256\":\"0x71c6a58be5e861e6576cf3150880a74484a2f1d1cdb76ebcddf1ed4b222f3496\",\"urls\":[\"bzz-raw://d77703cb54e6c3536750d3a3276037cf415f3b90b14167c384e4943ecae58d40\",\"dweb:/ipfs/QmStTC4KtXbB7k4vbVpEPrr8txZMr29bfgZbfREioVLeWE\"]},\"@openzeppelin/contracts/math/SafeMath.sol\":{\"keccak256\":\"0x640b6dee7a4b830bdfd52b5031a07fc2b12209f5b2e29e5d364a7d37f69d8076\",\"urls\":[\"bzz-raw://31113152e1ddb78fe7a4197f247591ca894e93f916867beb708d8e747b6cc74f\",\"dweb:/ipfs/QmbZaJyXdpsYGykVhHH9qpVGQg9DGCxE2QufbCUy3daTgq\"]},\"@openzeppelin/contracts/token/ERC20/IERC20.sol\":{\"keccak256\":\"0xe5bb0f57cff3e299f360052ba50f1ea0fff046df2be070b6943e0e3c3fdad8a9\",\"urls\":[\"bzz-raw://59fd025151435da35faa8093a5c7a17de02de9d08ad27275c5cdf05050820d91\",\"dweb:/ipfs/QmQMvwEcPhoRXzbXyrdoeRtvLoifUW9Qh7Luho7bmUPRkc\"]},\"@uniswap/v2-core/contracts/interfaces/IUniswapV2Pair.sol\":{\"keccak256\":\"0x7c9bc70e5996c763e02ff38905282bc24fb242b0ef2519a003b36824fc524a4b\",\"urls\":[\"bzz-raw://85d5ad2dd23ee127f40907a12865a1e8cb5828814f6f2480285e1827dd72dedf\",\"dweb:/ipfs/QmayKQWJgWmr46DqWseADyUanmqxh662hPNdAkdHRjiQQH\"]}},\"version\":1}",
+  "bytecode": "0x6080604052348015600f57600080fd5b50604c80601d6000396000f3fe6080604052600080fdfea365627a7a72315820dba894ff6b0ff798b31c538c288a67310d85dfbec1a9d59f49e062b4ec1d7cdb6c6578706572696d656e74616cf564736f6c63430005110040",
+  "deployedBytecode": "0x6080604052600080fdfea365627a7a72315820dba894ff6b0ff798b31c538c288a67310d85dfbec1a9d59f49e062b4ec1d7cdb6c6578706572696d656e74616cf564736f6c63430005110040",
+  "sourceMap": "2376:44:14:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;2376:44:14;;;;;;;",
+  "deployedSourceMap": "2376:44:14:-;;;;;",
+  "source": "/*\n    Copyright 2020 True Seigniorage Dollar Devs, based on the works of the Empty Set Squad and Dynamic Dollar Devs\n\n    Licensed under the Apache License, Version 2.0 (the \"License\");\n    you may not use this file except in compliance with the License.\n    You may obtain a copy of the License at\n\n    http://www.apache.org/licenses/LICENSE-2.0\n\n    Unless required by applicable law or agreed to in writing, software\n    distributed under the License is distributed on an \"AS IS\" BASIS,\n    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n    See the License for the specific language governing permissions and\n    limitations under the License.\n*/\n\npragma solidity ^0.5.17;\npragma experimental ABIEncoderV2;\n\nimport '@uniswap/v2-core/contracts/interfaces/IUniswapV2Pair.sol';\nimport \"../token/IDollar.sol\";\nimport \"../oracle/IOracle.sol\";\nimport \"../external/Decimal.sol\";\n\ncontract Account {\n    enum Status {\n        Frozen,\n        Fluid,\n        Locked\n    }\n\n    struct State {\n        uint256 staged;\n        uint256 balance;\n        mapping(uint256 => uint256) coupons;\n        mapping(address => uint256) couponAllowances;\n        uint256 fluidUntil;\n        uint256 lockedUntil;\n    }\n}\n\ncontract Epoch {\n    struct Global {\n        uint256 start;\n        uint256 period;\n        uint256 current;\n    }\n\n    struct Coupons {\n        uint256 outstanding;\n        uint256 expiration;\n        uint256[] expiring;\n    }\n\n    struct State {\n        uint256 bonded;\n        Coupons coupons;\n    }\n}\n\ncontract Candidate {\n    enum Vote {\n        UNDECIDED,\n        APPROVE,\n        REJECT\n    }\n\n    struct State {\n        uint256 start;\n        uint256 period;\n        uint256 approve;\n        uint256 reject;\n        mapping(address => Vote) votes;\n        bool initialized;\n    }\n}\n\ncontract Storage {\n    struct Provider {\n        IDollar dollar;\n        IOracle oracle;\n        address pool;\n    }\n\n    struct Balance {\n        uint256 supply;\n        uint256 bonded;\n        uint256 staged;\n        uint256 redeemable;\n        uint256 debt;\n        uint256 coupons;\n    }\n\n    struct State {\n        Epoch.Global epoch;\n        Balance balance;\n        Provider provider;\n\n        mapping(address => Account.State) accounts;\n        mapping(uint256 => Epoch.State) epochs;\n        mapping(address => Candidate.State) candidates;\n    }\n}\n\ncontract State {\n    Storage.State _state;\n}\n",
+  "sourcePath": "/Volumes/Data/Code/planb/true-seigniorage-dollar/protocol/contracts/dao/State.sol",
   "ast": {
-    "absolutePath": "/home/name/Desktop/Files/projects/dynamic/dollar/protocol/contracts/dao/State.sol",
+    "absolutePath": "/Volumes/Data/Code/planb/true-seigniorage-dollar/protocol/contracts/dao/State.sol",
     "exportedSymbols": {
       "Account": [
-        4278
+        4540
       ],
       "Candidate": [
-        4319
+        4581
       ],
       "Epoch": [
-        4299
+        4561
       ],
       "State": [
-        4362
+        4624
       ],
       "Storage": [
-        4359
+        4621
       ]
     },
-    "id": 4363,
+    "id": 4625,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 4251,
+        "id": 4513,
         "literals": [
           "solidity",
           "^",
@@ -39,58 +39,58 @@
           ".17"
         ],
         "nodeType": "PragmaDirective",
-        "src": "646:24:14"
+        "src": "679:24:14"
       },
       {
-        "id": 4252,
+        "id": 4514,
         "literals": [
           "experimental",
           "ABIEncoderV2"
         ],
         "nodeType": "PragmaDirective",
-        "src": "671:33:14"
+        "src": "704:33:14"
       },
       {
         "absolutePath": "@uniswap/v2-core/contracts/interfaces/IUniswapV2Pair.sol",
         "file": "@uniswap/v2-core/contracts/interfaces/IUniswapV2Pair.sol",
-        "id": 4253,
+        "id": 4515,
         "nodeType": "ImportDirective",
-        "scope": 4363,
-        "sourceUnit": 12440,
-        "src": "706:66:14",
+        "scope": 4625,
+        "sourceUnit": 12702,
+        "src": "739:66:14",
         "symbolAliases": [],
         "unitAlias": ""
       },
       {
-        "absolutePath": "/home/name/Desktop/Files/projects/dynamic/dollar/protocol/contracts/token/IDollar.sol",
+        "absolutePath": "/Volumes/Data/Code/planb/true-seigniorage-dollar/protocol/contracts/token/IDollar.sol",
         "file": "../token/IDollar.sol",
-        "id": 4254,
+        "id": 4516,
         "nodeType": "ImportDirective",
-        "scope": 4363,
-        "sourceUnit": 10585,
-        "src": "773:30:14",
+        "scope": 4625,
+        "sourceUnit": 10847,
+        "src": "806:30:14",
         "symbolAliases": [],
         "unitAlias": ""
       },
       {
-        "absolutePath": "/home/name/Desktop/Files/projects/dynamic/dollar/protocol/contracts/oracle/IOracle.sol",
+        "absolutePath": "/Volumes/Data/Code/planb/true-seigniorage-dollar/protocol/contracts/oracle/IOracle.sol",
         "file": "../oracle/IOracle.sol",
-        "id": 4255,
+        "id": 4517,
         "nodeType": "ImportDirective",
-        "scope": 4363,
-        "sourceUnit": 8612,
-        "src": "804:31:14",
+        "scope": 4625,
+        "sourceUnit": 8874,
+        "src": "837:31:14",
         "symbolAliases": [],
         "unitAlias": ""
       },
       {
-        "absolutePath": "/home/name/Desktop/Files/projects/dynamic/dollar/protocol/contracts/external/Decimal.sol",
+        "absolutePath": "/Volumes/Data/Code/planb/true-seigniorage-dollar/protocol/contracts/external/Decimal.sol",
         "file": "../external/Decimal.sol",
-        "id": 4256,
+        "id": 4518,
         "nodeType": "ImportDirective",
-        "scope": 4363,
-        "sourceUnit": 4911,
-        "src": "836:33:14",
+        "scope": 4625,
+        "sourceUnit": 5173,
+        "src": "869:33:14",
         "symbolAliases": [],
         "unitAlias": ""
       },
@@ -100,51 +100,51 @@
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 4278,
+        "id": 4540,
         "linearizedBaseContracts": [
-          4278
+          4540
         ],
         "name": "Account",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "canonicalName": "Account.Status",
-            "id": 4260,
+            "id": 4522,
             "members": [
               {
-                "id": 4257,
+                "id": 4519,
                 "name": "Frozen",
                 "nodeType": "EnumValue",
-                "src": "916:6:14"
+                "src": "949:6:14"
               },
               {
-                "id": 4258,
+                "id": 4520,
                 "name": "Fluid",
                 "nodeType": "EnumValue",
-                "src": "932:5:14"
+                "src": "965:5:14"
               },
               {
-                "id": 4259,
+                "id": 4521,
                 "name": "Locked",
                 "nodeType": "EnumValue",
-                "src": "947:6:14"
+                "src": "980:6:14"
               }
             ],
             "name": "Status",
             "nodeType": "EnumDefinition",
-            "src": "894:65:14"
+            "src": "927:65:14"
           },
           {
             "canonicalName": "Account.State",
-            "id": 4277,
+            "id": 4539,
             "members": [
               {
                 "constant": false,
-                "id": 4262,
+                "id": 4524,
                 "name": "staged",
                 "nodeType": "VariableDeclaration",
-                "scope": 4277,
-                "src": "988:14:14",
+                "scope": 4539,
+                "src": "1021:14:14",
                 "stateVariable": false,
                 "storageLocation": "default",
                 "typeDescriptions": {
@@ -152,10 +152,10 @@
                   "typeString": "uint256"
                 },
                 "typeName": {
-                  "id": 4261,
+                  "id": 4523,
                   "name": "uint256",
                   "nodeType": "ElementaryTypeName",
-                  "src": "988:7:14",
+                  "src": "1021:7:14",
                   "typeDescriptions": {
                     "typeIdentifier": "t_uint256",
                     "typeString": "uint256"
@@ -166,11 +166,11 @@
               },
               {
                 "constant": false,
-                "id": 4264,
+                "id": 4526,
                 "name": "balance",
                 "nodeType": "VariableDeclaration",
-                "scope": 4277,
-                "src": "1012:15:14",
+                "scope": 4539,
+                "src": "1045:15:14",
                 "stateVariable": false,
                 "storageLocation": "default",
                 "typeDescriptions": {
@@ -178,10 +178,10 @@
                   "typeString": "uint256"
                 },
                 "typeName": {
-                  "id": 4263,
+                  "id": 4525,
                   "name": "uint256",
                   "nodeType": "ElementaryTypeName",
-                  "src": "1012:7:14",
+                  "src": "1045:7:14",
                   "typeDescriptions": {
                     "typeIdentifier": "t_uint256",
                     "typeString": "uint256"
@@ -192,11 +192,11 @@
               },
               {
                 "constant": false,
-                "id": 4268,
+                "id": 4530,
                 "name": "coupons",
                 "nodeType": "VariableDeclaration",
-                "scope": 4277,
-                "src": "1037:35:14",
+                "scope": 4539,
+                "src": "1070:35:14",
                 "stateVariable": false,
                 "storageLocation": "default",
                 "typeDescriptions": {
@@ -204,28 +204,28 @@
                   "typeString": "mapping(uint256 => uint256)"
                 },
                 "typeName": {
-                  "id": 4267,
+                  "id": 4529,
                   "keyType": {
-                    "id": 4265,
+                    "id": 4527,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "1045:7:14",
+                    "src": "1078:7:14",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
                     }
                   },
                   "nodeType": "Mapping",
-                  "src": "1037:27:14",
+                  "src": "1070:27:14",
                   "typeDescriptions": {
                     "typeIdentifier": "t_mapping$_t_uint256_$_t_uint256_$",
                     "typeString": "mapping(uint256 => uint256)"
                   },
                   "valueType": {
-                    "id": 4266,
+                    "id": 4528,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "1056:7:14",
+                    "src": "1089:7:14",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -237,11 +237,11 @@
               },
               {
                 "constant": false,
-                "id": 4272,
+                "id": 4534,
                 "name": "couponAllowances",
                 "nodeType": "VariableDeclaration",
-                "scope": 4277,
-                "src": "1082:44:14",
+                "scope": 4539,
+                "src": "1115:44:14",
                 "stateVariable": false,
                 "storageLocation": "default",
                 "typeDescriptions": {
@@ -249,28 +249,28 @@
                   "typeString": "mapping(address => uint256)"
                 },
                 "typeName": {
-                  "id": 4271,
+                  "id": 4533,
                   "keyType": {
-                    "id": 4269,
+                    "id": 4531,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "1090:7:14",
+                    "src": "1123:7:14",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
                       "typeString": "address"
                     }
                   },
                   "nodeType": "Mapping",
-                  "src": "1082:27:14",
+                  "src": "1115:27:14",
                   "typeDescriptions": {
                     "typeIdentifier": "t_mapping$_t_address_$_t_uint256_$",
                     "typeString": "mapping(address => uint256)"
                   },
                   "valueType": {
-                    "id": 4270,
+                    "id": 4532,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "1101:7:14",
+                    "src": "1134:7:14",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -282,11 +282,11 @@
               },
               {
                 "constant": false,
-                "id": 4274,
+                "id": 4536,
                 "name": "fluidUntil",
                 "nodeType": "VariableDeclaration",
-                "scope": 4277,
-                "src": "1136:18:14",
+                "scope": 4539,
+                "src": "1169:18:14",
                 "stateVariable": false,
                 "storageLocation": "default",
                 "typeDescriptions": {
@@ -294,10 +294,10 @@
                   "typeString": "uint256"
                 },
                 "typeName": {
-                  "id": 4273,
+                  "id": 4535,
                   "name": "uint256",
                   "nodeType": "ElementaryTypeName",
-                  "src": "1136:7:14",
+                  "src": "1169:7:14",
                   "typeDescriptions": {
                     "typeIdentifier": "t_uint256",
                     "typeString": "uint256"
@@ -308,11 +308,11 @@
               },
               {
                 "constant": false,
-                "id": 4276,
+                "id": 4538,
                 "name": "lockedUntil",
                 "nodeType": "VariableDeclaration",
-                "scope": 4277,
-                "src": "1164:19:14",
+                "scope": 4539,
+                "src": "1197:19:14",
                 "stateVariable": false,
                 "storageLocation": "default",
                 "typeDescriptions": {
@@ -320,10 +320,10 @@
                   "typeString": "uint256"
                 },
                 "typeName": {
-                  "id": 4275,
+                  "id": 4537,
                   "name": "uint256",
                   "nodeType": "ElementaryTypeName",
-                  "src": "1164:7:14",
+                  "src": "1197:7:14",
                   "typeDescriptions": {
                     "typeIdentifier": "t_uint256",
                     "typeString": "uint256"
@@ -335,13 +335,13 @@
             ],
             "name": "State",
             "nodeType": "StructDefinition",
-            "scope": 4278,
-            "src": "965:225:14",
+            "scope": 4540,
+            "src": "998:225:14",
             "visibility": "public"
           }
         ],
-        "scope": 4363,
-        "src": "871:321:14"
+        "scope": 4625,
+        "src": "904:321:14"
       },
       {
         "baseContracts": [],
@@ -349,24 +349,24 @@
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 4299,
+        "id": 4561,
         "linearizedBaseContracts": [
-          4299
+          4561
         ],
         "name": "Epoch",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "canonicalName": "Epoch.Global",
-            "id": 4285,
+            "id": 4547,
             "members": [
               {
                 "constant": false,
-                "id": 4280,
+                "id": 4542,
                 "name": "start",
                 "nodeType": "VariableDeclaration",
-                "scope": 4285,
-                "src": "1239:13:14",
+                "scope": 4547,
+                "src": "1272:13:14",
                 "stateVariable": false,
                 "storageLocation": "default",
                 "typeDescriptions": {
@@ -374,10 +374,10 @@
                   "typeString": "uint256"
                 },
                 "typeName": {
-                  "id": 4279,
+                  "id": 4541,
                   "name": "uint256",
                   "nodeType": "ElementaryTypeName",
-                  "src": "1239:7:14",
+                  "src": "1272:7:14",
                   "typeDescriptions": {
                     "typeIdentifier": "t_uint256",
                     "typeString": "uint256"
@@ -388,11 +388,11 @@
               },
               {
                 "constant": false,
-                "id": 4282,
+                "id": 4544,
                 "name": "period",
                 "nodeType": "VariableDeclaration",
-                "scope": 4285,
-                "src": "1262:14:14",
+                "scope": 4547,
+                "src": "1295:14:14",
                 "stateVariable": false,
                 "storageLocation": "default",
                 "typeDescriptions": {
@@ -400,10 +400,10 @@
                   "typeString": "uint256"
                 },
                 "typeName": {
-                  "id": 4281,
+                  "id": 4543,
                   "name": "uint256",
                   "nodeType": "ElementaryTypeName",
-                  "src": "1262:7:14",
+                  "src": "1295:7:14",
                   "typeDescriptions": {
                     "typeIdentifier": "t_uint256",
                     "typeString": "uint256"
@@ -414,11 +414,11 @@
               },
               {
                 "constant": false,
-                "id": 4284,
+                "id": 4546,
                 "name": "current",
                 "nodeType": "VariableDeclaration",
-                "scope": 4285,
-                "src": "1286:15:14",
+                "scope": 4547,
+                "src": "1319:15:14",
                 "stateVariable": false,
                 "storageLocation": "default",
                 "typeDescriptions": {
@@ -426,10 +426,10 @@
                   "typeString": "uint256"
                 },
                 "typeName": {
-                  "id": 4283,
+                  "id": 4545,
                   "name": "uint256",
                   "nodeType": "ElementaryTypeName",
-                  "src": "1286:7:14",
+                  "src": "1319:7:14",
                   "typeDescriptions": {
                     "typeIdentifier": "t_uint256",
                     "typeString": "uint256"
@@ -441,21 +441,21 @@
             ],
             "name": "Global",
             "nodeType": "StructDefinition",
-            "scope": 4299,
-            "src": "1215:93:14",
+            "scope": 4561,
+            "src": "1248:93:14",
             "visibility": "public"
           },
           {
             "canonicalName": "Epoch.Coupons",
-            "id": 4293,
+            "id": 4555,
             "members": [
               {
                 "constant": false,
-                "id": 4287,
+                "id": 4549,
                 "name": "outstanding",
                 "nodeType": "VariableDeclaration",
-                "scope": 4293,
-                "src": "1339:19:14",
+                "scope": 4555,
+                "src": "1372:19:14",
                 "stateVariable": false,
                 "storageLocation": "default",
                 "typeDescriptions": {
@@ -463,10 +463,10 @@
                   "typeString": "uint256"
                 },
                 "typeName": {
-                  "id": 4286,
+                  "id": 4548,
                   "name": "uint256",
                   "nodeType": "ElementaryTypeName",
-                  "src": "1339:7:14",
+                  "src": "1372:7:14",
                   "typeDescriptions": {
                     "typeIdentifier": "t_uint256",
                     "typeString": "uint256"
@@ -477,11 +477,11 @@
               },
               {
                 "constant": false,
-                "id": 4289,
+                "id": 4551,
                 "name": "expiration",
                 "nodeType": "VariableDeclaration",
-                "scope": 4293,
-                "src": "1368:18:14",
+                "scope": 4555,
+                "src": "1401:18:14",
                 "stateVariable": false,
                 "storageLocation": "default",
                 "typeDescriptions": {
@@ -489,10 +489,10 @@
                   "typeString": "uint256"
                 },
                 "typeName": {
-                  "id": 4288,
+                  "id": 4550,
                   "name": "uint256",
                   "nodeType": "ElementaryTypeName",
-                  "src": "1368:7:14",
+                  "src": "1401:7:14",
                   "typeDescriptions": {
                     "typeIdentifier": "t_uint256",
                     "typeString": "uint256"
@@ -503,11 +503,11 @@
               },
               {
                 "constant": false,
-                "id": 4292,
+                "id": 4554,
                 "name": "expiring",
                 "nodeType": "VariableDeclaration",
-                "scope": 4293,
-                "src": "1396:18:14",
+                "scope": 4555,
+                "src": "1429:18:14",
                 "stateVariable": false,
                 "storageLocation": "default",
                 "typeDescriptions": {
@@ -516,19 +516,19 @@
                 },
                 "typeName": {
                   "baseType": {
-                    "id": 4290,
+                    "id": 4552,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "1396:7:14",
+                    "src": "1429:7:14",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
                     }
                   },
-                  "id": 4291,
+                  "id": 4553,
                   "length": null,
                   "nodeType": "ArrayTypeName",
-                  "src": "1396:9:14",
+                  "src": "1429:9:14",
                   "typeDescriptions": {
                     "typeIdentifier": "t_array$_t_uint256_$dyn_storage_ptr",
                     "typeString": "uint256[]"
@@ -540,21 +540,21 @@
             ],
             "name": "Coupons",
             "nodeType": "StructDefinition",
-            "scope": 4299,
-            "src": "1314:107:14",
+            "scope": 4561,
+            "src": "1347:107:14",
             "visibility": "public"
           },
           {
             "canonicalName": "Epoch.State",
-            "id": 4298,
+            "id": 4560,
             "members": [
               {
                 "constant": false,
-                "id": 4295,
+                "id": 4557,
                 "name": "bonded",
                 "nodeType": "VariableDeclaration",
-                "scope": 4298,
-                "src": "1450:14:14",
+                "scope": 4560,
+                "src": "1483:14:14",
                 "stateVariable": false,
                 "storageLocation": "default",
                 "typeDescriptions": {
@@ -562,10 +562,10 @@
                   "typeString": "uint256"
                 },
                 "typeName": {
-                  "id": 4294,
+                  "id": 4556,
                   "name": "uint256",
                   "nodeType": "ElementaryTypeName",
-                  "src": "1450:7:14",
+                  "src": "1483:7:14",
                   "typeDescriptions": {
                     "typeIdentifier": "t_uint256",
                     "typeString": "uint256"
@@ -576,26 +576,26 @@
               },
               {
                 "constant": false,
-                "id": 4297,
+                "id": 4559,
                 "name": "coupons",
                 "nodeType": "VariableDeclaration",
-                "scope": 4298,
-                "src": "1474:15:14",
+                "scope": 4560,
+                "src": "1507:15:14",
                 "stateVariable": false,
                 "storageLocation": "default",
                 "typeDescriptions": {
-                  "typeIdentifier": "t_struct$_Coupons_$4293_storage_ptr",
+                  "typeIdentifier": "t_struct$_Coupons_$4555_storage_ptr",
                   "typeString": "struct Epoch.Coupons"
                 },
                 "typeName": {
                   "contractScope": null,
-                  "id": 4296,
+                  "id": 4558,
                   "name": "Coupons",
                   "nodeType": "UserDefinedTypeName",
-                  "referencedDeclaration": 4293,
-                  "src": "1474:7:14",
+                  "referencedDeclaration": 4555,
+                  "src": "1507:7:14",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_struct$_Coupons_$4293_storage_ptr",
+                    "typeIdentifier": "t_struct$_Coupons_$4555_storage_ptr",
                     "typeString": "struct Epoch.Coupons"
                   }
                 },
@@ -605,13 +605,13 @@
             ],
             "name": "State",
             "nodeType": "StructDefinition",
-            "scope": 4299,
-            "src": "1427:69:14",
+            "scope": 4561,
+            "src": "1460:69:14",
             "visibility": "public"
           }
         ],
-        "scope": 4363,
-        "src": "1194:304:14"
+        "scope": 4625,
+        "src": "1227:304:14"
       },
       {
         "baseContracts": [],
@@ -619,51 +619,51 @@
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 4319,
+        "id": 4581,
         "linearizedBaseContracts": [
-          4319
+          4581
         ],
         "name": "Candidate",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "canonicalName": "Candidate.Vote",
-            "id": 4303,
+            "id": 4565,
             "members": [
               {
-                "id": 4300,
+                "id": 4562,
                 "name": "UNDECIDED",
                 "nodeType": "EnumValue",
-                "src": "1545:9:14"
+                "src": "1578:9:14"
               },
               {
-                "id": 4301,
+                "id": 4563,
                 "name": "APPROVE",
                 "nodeType": "EnumValue",
-                "src": "1564:7:14"
+                "src": "1597:7:14"
               },
               {
-                "id": 4302,
+                "id": 4564,
                 "name": "REJECT",
                 "nodeType": "EnumValue",
-                "src": "1581:6:14"
+                "src": "1614:6:14"
               }
             ],
             "name": "Vote",
             "nodeType": "EnumDefinition",
-            "src": "1525:68:14"
+            "src": "1558:68:14"
           },
           {
             "canonicalName": "Candidate.State",
-            "id": 4318,
+            "id": 4580,
             "members": [
               {
                 "constant": false,
-                "id": 4305,
+                "id": 4567,
                 "name": "start",
                 "nodeType": "VariableDeclaration",
-                "scope": 4318,
-                "src": "1622:13:14",
+                "scope": 4580,
+                "src": "1655:13:14",
                 "stateVariable": false,
                 "storageLocation": "default",
                 "typeDescriptions": {
@@ -671,10 +671,10 @@
                   "typeString": "uint256"
                 },
                 "typeName": {
-                  "id": 4304,
+                  "id": 4566,
                   "name": "uint256",
                   "nodeType": "ElementaryTypeName",
-                  "src": "1622:7:14",
+                  "src": "1655:7:14",
                   "typeDescriptions": {
                     "typeIdentifier": "t_uint256",
                     "typeString": "uint256"
@@ -685,11 +685,11 @@
               },
               {
                 "constant": false,
-                "id": 4307,
+                "id": 4569,
                 "name": "period",
                 "nodeType": "VariableDeclaration",
-                "scope": 4318,
-                "src": "1645:14:14",
+                "scope": 4580,
+                "src": "1678:14:14",
                 "stateVariable": false,
                 "storageLocation": "default",
                 "typeDescriptions": {
@@ -697,10 +697,10 @@
                   "typeString": "uint256"
                 },
                 "typeName": {
-                  "id": 4306,
+                  "id": 4568,
                   "name": "uint256",
                   "nodeType": "ElementaryTypeName",
-                  "src": "1645:7:14",
+                  "src": "1678:7:14",
                   "typeDescriptions": {
                     "typeIdentifier": "t_uint256",
                     "typeString": "uint256"
@@ -711,11 +711,11 @@
               },
               {
                 "constant": false,
-                "id": 4309,
+                "id": 4571,
                 "name": "approve",
                 "nodeType": "VariableDeclaration",
-                "scope": 4318,
-                "src": "1669:15:14",
+                "scope": 4580,
+                "src": "1702:15:14",
                 "stateVariable": false,
                 "storageLocation": "default",
                 "typeDescriptions": {
@@ -723,10 +723,10 @@
                   "typeString": "uint256"
                 },
                 "typeName": {
-                  "id": 4308,
+                  "id": 4570,
                   "name": "uint256",
                   "nodeType": "ElementaryTypeName",
-                  "src": "1669:7:14",
+                  "src": "1702:7:14",
                   "typeDescriptions": {
                     "typeIdentifier": "t_uint256",
                     "typeString": "uint256"
@@ -737,11 +737,11 @@
               },
               {
                 "constant": false,
-                "id": 4311,
+                "id": 4573,
                 "name": "reject",
                 "nodeType": "VariableDeclaration",
-                "scope": 4318,
-                "src": "1694:14:14",
+                "scope": 4580,
+                "src": "1727:14:14",
                 "stateVariable": false,
                 "storageLocation": "default",
                 "typeDescriptions": {
@@ -749,10 +749,10 @@
                   "typeString": "uint256"
                 },
                 "typeName": {
-                  "id": 4310,
+                  "id": 4572,
                   "name": "uint256",
                   "nodeType": "ElementaryTypeName",
-                  "src": "1694:7:14",
+                  "src": "1727:7:14",
                   "typeDescriptions": {
                     "typeIdentifier": "t_uint256",
                     "typeString": "uint256"
@@ -763,44 +763,44 @@
               },
               {
                 "constant": false,
-                "id": 4315,
+                "id": 4577,
                 "name": "votes",
                 "nodeType": "VariableDeclaration",
-                "scope": 4318,
-                "src": "1718:30:14",
+                "scope": 4580,
+                "src": "1751:30:14",
                 "stateVariable": false,
                 "storageLocation": "default",
                 "typeDescriptions": {
-                  "typeIdentifier": "t_mapping$_t_address_$_t_enum$_Vote_$4303_$",
+                  "typeIdentifier": "t_mapping$_t_address_$_t_enum$_Vote_$4565_$",
                   "typeString": "mapping(address => enum Candidate.Vote)"
                 },
                 "typeName": {
-                  "id": 4314,
+                  "id": 4576,
                   "keyType": {
-                    "id": 4312,
+                    "id": 4574,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "1726:7:14",
+                    "src": "1759:7:14",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
                       "typeString": "address"
                     }
                   },
                   "nodeType": "Mapping",
-                  "src": "1718:24:14",
+                  "src": "1751:24:14",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_mapping$_t_address_$_t_enum$_Vote_$4303_$",
+                    "typeIdentifier": "t_mapping$_t_address_$_t_enum$_Vote_$4565_$",
                     "typeString": "mapping(address => enum Candidate.Vote)"
                   },
                   "valueType": {
                     "contractScope": null,
-                    "id": 4313,
+                    "id": 4575,
                     "name": "Vote",
                     "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 4303,
-                    "src": "1737:4:14",
+                    "referencedDeclaration": 4565,
+                    "src": "1770:4:14",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_enum$_Vote_$4303",
+                      "typeIdentifier": "t_enum$_Vote_$4565",
                       "typeString": "enum Candidate.Vote"
                     }
                   }
@@ -810,11 +810,11 @@
               },
               {
                 "constant": false,
-                "id": 4317,
+                "id": 4579,
                 "name": "initialized",
                 "nodeType": "VariableDeclaration",
-                "scope": 4318,
-                "src": "1758:16:14",
+                "scope": 4580,
+                "src": "1791:16:14",
                 "stateVariable": false,
                 "storageLocation": "default",
                 "typeDescriptions": {
@@ -822,10 +822,10 @@
                   "typeString": "bool"
                 },
                 "typeName": {
-                  "id": 4316,
+                  "id": 4578,
                   "name": "bool",
                   "nodeType": "ElementaryTypeName",
-                  "src": "1758:4:14",
+                  "src": "1791:4:14",
                   "typeDescriptions": {
                     "typeIdentifier": "t_bool",
                     "typeString": "bool"
@@ -837,13 +837,13 @@
             ],
             "name": "State",
             "nodeType": "StructDefinition",
-            "scope": 4319,
-            "src": "1599:182:14",
+            "scope": 4581,
+            "src": "1632:182:14",
             "visibility": "public"
           }
         ],
-        "scope": 4363,
-        "src": "1500:283:14"
+        "scope": 4625,
+        "src": "1533:283:14"
       },
       {
         "baseContracts": [],
@@ -851,39 +851,39 @@
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 4359,
+        "id": 4621,
         "linearizedBaseContracts": [
-          4359
+          4621
         ],
         "name": "Storage",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "canonicalName": "Storage.Provider",
-            "id": 4326,
+            "id": 4588,
             "members": [
               {
                 "constant": false,
-                "id": 4321,
+                "id": 4583,
                 "name": "dollar",
                 "nodeType": "VariableDeclaration",
-                "scope": 4326,
-                "src": "1834:14:14",
+                "scope": 4588,
+                "src": "1867:14:14",
                 "stateVariable": false,
                 "storageLocation": "default",
                 "typeDescriptions": {
-                  "typeIdentifier": "t_contract$_IDollar_$10584",
+                  "typeIdentifier": "t_contract$_IDollar_$10846",
                   "typeString": "contract IDollar"
                 },
                 "typeName": {
                   "contractScope": null,
-                  "id": 4320,
+                  "id": 4582,
                   "name": "IDollar",
                   "nodeType": "UserDefinedTypeName",
-                  "referencedDeclaration": 10584,
-                  "src": "1834:7:14",
+                  "referencedDeclaration": 10846,
+                  "src": "1867:7:14",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_contract$_IDollar_$10584",
+                    "typeIdentifier": "t_contract$_IDollar_$10846",
                     "typeString": "contract IDollar"
                   }
                 },
@@ -892,26 +892,26 @@
               },
               {
                 "constant": false,
-                "id": 4323,
+                "id": 4585,
                 "name": "oracle",
                 "nodeType": "VariableDeclaration",
-                "scope": 4326,
-                "src": "1858:14:14",
+                "scope": 4588,
+                "src": "1891:14:14",
                 "stateVariable": false,
                 "storageLocation": "default",
                 "typeDescriptions": {
-                  "typeIdentifier": "t_contract$_IOracle_$8611",
+                  "typeIdentifier": "t_contract$_IOracle_$8873",
                   "typeString": "contract IOracle"
                 },
                 "typeName": {
                   "contractScope": null,
-                  "id": 4322,
+                  "id": 4584,
                   "name": "IOracle",
                   "nodeType": "UserDefinedTypeName",
-                  "referencedDeclaration": 8611,
-                  "src": "1858:7:14",
+                  "referencedDeclaration": 8873,
+                  "src": "1891:7:14",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_contract$_IOracle_$8611",
+                    "typeIdentifier": "t_contract$_IOracle_$8873",
                     "typeString": "contract IOracle"
                   }
                 },
@@ -920,11 +920,11 @@
               },
               {
                 "constant": false,
-                "id": 4325,
+                "id": 4587,
                 "name": "pool",
                 "nodeType": "VariableDeclaration",
-                "scope": 4326,
-                "src": "1882:12:14",
+                "scope": 4588,
+                "src": "1915:12:14",
                 "stateVariable": false,
                 "storageLocation": "default",
                 "typeDescriptions": {
@@ -932,10 +932,10 @@
                   "typeString": "address"
                 },
                 "typeName": {
-                  "id": 4324,
+                  "id": 4586,
                   "name": "address",
                   "nodeType": "ElementaryTypeName",
-                  "src": "1882:7:14",
+                  "src": "1915:7:14",
                   "stateMutability": "nonpayable",
                   "typeDescriptions": {
                     "typeIdentifier": "t_address",
@@ -948,21 +948,21 @@
             ],
             "name": "Provider",
             "nodeType": "StructDefinition",
-            "scope": 4359,
-            "src": "1808:93:14",
+            "scope": 4621,
+            "src": "1841:93:14",
             "visibility": "public"
           },
           {
             "canonicalName": "Storage.Balance",
-            "id": 4339,
+            "id": 4601,
             "members": [
               {
                 "constant": false,
-                "id": 4328,
+                "id": 4590,
                 "name": "supply",
                 "nodeType": "VariableDeclaration",
-                "scope": 4339,
-                "src": "1932:14:14",
+                "scope": 4601,
+                "src": "1965:14:14",
                 "stateVariable": false,
                 "storageLocation": "default",
                 "typeDescriptions": {
@@ -970,10 +970,10 @@
                   "typeString": "uint256"
                 },
                 "typeName": {
-                  "id": 4327,
+                  "id": 4589,
                   "name": "uint256",
                   "nodeType": "ElementaryTypeName",
-                  "src": "1932:7:14",
+                  "src": "1965:7:14",
                   "typeDescriptions": {
                     "typeIdentifier": "t_uint256",
                     "typeString": "uint256"
@@ -984,11 +984,11 @@
               },
               {
                 "constant": false,
-                "id": 4330,
+                "id": 4592,
                 "name": "bonded",
                 "nodeType": "VariableDeclaration",
-                "scope": 4339,
-                "src": "1956:14:14",
+                "scope": 4601,
+                "src": "1989:14:14",
                 "stateVariable": false,
                 "storageLocation": "default",
                 "typeDescriptions": {
@@ -996,10 +996,10 @@
                   "typeString": "uint256"
                 },
                 "typeName": {
-                  "id": 4329,
+                  "id": 4591,
                   "name": "uint256",
                   "nodeType": "ElementaryTypeName",
-                  "src": "1956:7:14",
+                  "src": "1989:7:14",
                   "typeDescriptions": {
                     "typeIdentifier": "t_uint256",
                     "typeString": "uint256"
@@ -1010,11 +1010,11 @@
               },
               {
                 "constant": false,
-                "id": 4332,
+                "id": 4594,
                 "name": "staged",
                 "nodeType": "VariableDeclaration",
-                "scope": 4339,
-                "src": "1980:14:14",
+                "scope": 4601,
+                "src": "2013:14:14",
                 "stateVariable": false,
                 "storageLocation": "default",
                 "typeDescriptions": {
@@ -1022,10 +1022,10 @@
                   "typeString": "uint256"
                 },
                 "typeName": {
-                  "id": 4331,
+                  "id": 4593,
                   "name": "uint256",
                   "nodeType": "ElementaryTypeName",
-                  "src": "1980:7:14",
+                  "src": "2013:7:14",
                   "typeDescriptions": {
                     "typeIdentifier": "t_uint256",
                     "typeString": "uint256"
@@ -1036,11 +1036,11 @@
               },
               {
                 "constant": false,
-                "id": 4334,
+                "id": 4596,
                 "name": "redeemable",
                 "nodeType": "VariableDeclaration",
-                "scope": 4339,
-                "src": "2004:18:14",
+                "scope": 4601,
+                "src": "2037:18:14",
                 "stateVariable": false,
                 "storageLocation": "default",
                 "typeDescriptions": {
@@ -1048,10 +1048,10 @@
                   "typeString": "uint256"
                 },
                 "typeName": {
-                  "id": 4333,
+                  "id": 4595,
                   "name": "uint256",
                   "nodeType": "ElementaryTypeName",
-                  "src": "2004:7:14",
+                  "src": "2037:7:14",
                   "typeDescriptions": {
                     "typeIdentifier": "t_uint256",
                     "typeString": "uint256"
@@ -1062,11 +1062,11 @@
               },
               {
                 "constant": false,
-                "id": 4336,
+                "id": 4598,
                 "name": "debt",
                 "nodeType": "VariableDeclaration",
-                "scope": 4339,
-                "src": "2032:12:14",
+                "scope": 4601,
+                "src": "2065:12:14",
                 "stateVariable": false,
                 "storageLocation": "default",
                 "typeDescriptions": {
@@ -1074,10 +1074,10 @@
                   "typeString": "uint256"
                 },
                 "typeName": {
-                  "id": 4335,
+                  "id": 4597,
                   "name": "uint256",
                   "nodeType": "ElementaryTypeName",
-                  "src": "2032:7:14",
+                  "src": "2065:7:14",
                   "typeDescriptions": {
                     "typeIdentifier": "t_uint256",
                     "typeString": "uint256"
@@ -1088,11 +1088,11 @@
               },
               {
                 "constant": false,
-                "id": 4338,
+                "id": 4600,
                 "name": "coupons",
                 "nodeType": "VariableDeclaration",
-                "scope": 4339,
-                "src": "2054:15:14",
+                "scope": 4601,
+                "src": "2087:15:14",
                 "stateVariable": false,
                 "storageLocation": "default",
                 "typeDescriptions": {
@@ -1100,10 +1100,10 @@
                   "typeString": "uint256"
                 },
                 "typeName": {
-                  "id": 4337,
+                  "id": 4599,
                   "name": "uint256",
                   "nodeType": "ElementaryTypeName",
-                  "src": "2054:7:14",
+                  "src": "2087:7:14",
                   "typeDescriptions": {
                     "typeIdentifier": "t_uint256",
                     "typeString": "uint256"
@@ -1115,36 +1115,36 @@
             ],
             "name": "Balance",
             "nodeType": "StructDefinition",
-            "scope": 4359,
-            "src": "1907:169:14",
+            "scope": 4621,
+            "src": "1940:169:14",
             "visibility": "public"
           },
           {
             "canonicalName": "Storage.State",
-            "id": 4358,
+            "id": 4620,
             "members": [
               {
                 "constant": false,
-                "id": 4341,
+                "id": 4603,
                 "name": "epoch",
                 "nodeType": "VariableDeclaration",
-                "scope": 4358,
-                "src": "2105:18:14",
+                "scope": 4620,
+                "src": "2138:18:14",
                 "stateVariable": false,
                 "storageLocation": "default",
                 "typeDescriptions": {
-                  "typeIdentifier": "t_struct$_Global_$4285_storage_ptr",
+                  "typeIdentifier": "t_struct$_Global_$4547_storage_ptr",
                   "typeString": "struct Epoch.Global"
                 },
                 "typeName": {
                   "contractScope": null,
-                  "id": 4340,
+                  "id": 4602,
                   "name": "Epoch.Global",
                   "nodeType": "UserDefinedTypeName",
-                  "referencedDeclaration": 4285,
-                  "src": "2105:12:14",
+                  "referencedDeclaration": 4547,
+                  "src": "2138:12:14",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_struct$_Global_$4285_storage_ptr",
+                    "typeIdentifier": "t_struct$_Global_$4547_storage_ptr",
                     "typeString": "struct Epoch.Global"
                   }
                 },
@@ -1153,26 +1153,26 @@
               },
               {
                 "constant": false,
-                "id": 4343,
+                "id": 4605,
                 "name": "balance",
                 "nodeType": "VariableDeclaration",
-                "scope": 4358,
-                "src": "2133:15:14",
+                "scope": 4620,
+                "src": "2166:15:14",
                 "stateVariable": false,
                 "storageLocation": "default",
                 "typeDescriptions": {
-                  "typeIdentifier": "t_struct$_Balance_$4339_storage_ptr",
+                  "typeIdentifier": "t_struct$_Balance_$4601_storage_ptr",
                   "typeString": "struct Storage.Balance"
                 },
                 "typeName": {
                   "contractScope": null,
-                  "id": 4342,
+                  "id": 4604,
                   "name": "Balance",
                   "nodeType": "UserDefinedTypeName",
-                  "referencedDeclaration": 4339,
-                  "src": "2133:7:14",
+                  "referencedDeclaration": 4601,
+                  "src": "2166:7:14",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_struct$_Balance_$4339_storage_ptr",
+                    "typeIdentifier": "t_struct$_Balance_$4601_storage_ptr",
                     "typeString": "struct Storage.Balance"
                   }
                 },
@@ -1181,26 +1181,26 @@
               },
               {
                 "constant": false,
-                "id": 4345,
+                "id": 4607,
                 "name": "provider",
                 "nodeType": "VariableDeclaration",
-                "scope": 4358,
-                "src": "2158:17:14",
+                "scope": 4620,
+                "src": "2191:17:14",
                 "stateVariable": false,
                 "storageLocation": "default",
                 "typeDescriptions": {
-                  "typeIdentifier": "t_struct$_Provider_$4326_storage_ptr",
+                  "typeIdentifier": "t_struct$_Provider_$4588_storage_ptr",
                   "typeString": "struct Storage.Provider"
                 },
                 "typeName": {
                   "contractScope": null,
-                  "id": 4344,
+                  "id": 4606,
                   "name": "Provider",
                   "nodeType": "UserDefinedTypeName",
-                  "referencedDeclaration": 4326,
-                  "src": "2158:8:14",
+                  "referencedDeclaration": 4588,
+                  "src": "2191:8:14",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_struct$_Provider_$4326_storage_ptr",
+                    "typeIdentifier": "t_struct$_Provider_$4588_storage_ptr",
                     "typeString": "struct Storage.Provider"
                   }
                 },
@@ -1209,44 +1209,44 @@
               },
               {
                 "constant": false,
-                "id": 4349,
+                "id": 4611,
                 "name": "accounts",
                 "nodeType": "VariableDeclaration",
-                "scope": 4358,
-                "src": "2186:42:14",
+                "scope": 4620,
+                "src": "2219:42:14",
                 "stateVariable": false,
                 "storageLocation": "default",
                 "typeDescriptions": {
-                  "typeIdentifier": "t_mapping$_t_address_$_t_struct$_State_$4277_storage_$",
+                  "typeIdentifier": "t_mapping$_t_address_$_t_struct$_State_$4539_storage_$",
                   "typeString": "mapping(address => struct Account.State)"
                 },
                 "typeName": {
-                  "id": 4348,
+                  "id": 4610,
                   "keyType": {
-                    "id": 4346,
+                    "id": 4608,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "2194:7:14",
+                    "src": "2227:7:14",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
                       "typeString": "address"
                     }
                   },
                   "nodeType": "Mapping",
-                  "src": "2186:33:14",
+                  "src": "2219:33:14",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_mapping$_t_address_$_t_struct$_State_$4277_storage_$",
+                    "typeIdentifier": "t_mapping$_t_address_$_t_struct$_State_$4539_storage_$",
                     "typeString": "mapping(address => struct Account.State)"
                   },
                   "valueType": {
                     "contractScope": null,
-                    "id": 4347,
+                    "id": 4609,
                     "name": "Account.State",
                     "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 4277,
-                    "src": "2205:13:14",
+                    "referencedDeclaration": 4539,
+                    "src": "2238:13:14",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_struct$_State_$4277_storage_ptr",
+                      "typeIdentifier": "t_struct$_State_$4539_storage_ptr",
                       "typeString": "struct Account.State"
                     }
                   }
@@ -1256,44 +1256,44 @@
               },
               {
                 "constant": false,
-                "id": 4353,
+                "id": 4615,
                 "name": "epochs",
                 "nodeType": "VariableDeclaration",
-                "scope": 4358,
-                "src": "2238:38:14",
+                "scope": 4620,
+                "src": "2271:38:14",
                 "stateVariable": false,
                 "storageLocation": "default",
                 "typeDescriptions": {
-                  "typeIdentifier": "t_mapping$_t_uint256_$_t_struct$_State_$4298_storage_$",
+                  "typeIdentifier": "t_mapping$_t_uint256_$_t_struct$_State_$4560_storage_$",
                   "typeString": "mapping(uint256 => struct Epoch.State)"
                 },
                 "typeName": {
-                  "id": 4352,
+                  "id": 4614,
                   "keyType": {
-                    "id": 4350,
+                    "id": 4612,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "2246:7:14",
+                    "src": "2279:7:14",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
                     }
                   },
                   "nodeType": "Mapping",
-                  "src": "2238:31:14",
+                  "src": "2271:31:14",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_mapping$_t_uint256_$_t_struct$_State_$4298_storage_$",
+                    "typeIdentifier": "t_mapping$_t_uint256_$_t_struct$_State_$4560_storage_$",
                     "typeString": "mapping(uint256 => struct Epoch.State)"
                   },
                   "valueType": {
                     "contractScope": null,
-                    "id": 4351,
+                    "id": 4613,
                     "name": "Epoch.State",
                     "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 4298,
-                    "src": "2257:11:14",
+                    "referencedDeclaration": 4560,
+                    "src": "2290:11:14",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_struct$_State_$4298_storage_ptr",
+                      "typeIdentifier": "t_struct$_State_$4560_storage_ptr",
                       "typeString": "struct Epoch.State"
                     }
                   }
@@ -1303,44 +1303,44 @@
               },
               {
                 "constant": false,
-                "id": 4357,
+                "id": 4619,
                 "name": "candidates",
                 "nodeType": "VariableDeclaration",
-                "scope": 4358,
-                "src": "2286:46:14",
+                "scope": 4620,
+                "src": "2319:46:14",
                 "stateVariable": false,
                 "storageLocation": "default",
                 "typeDescriptions": {
-                  "typeIdentifier": "t_mapping$_t_address_$_t_struct$_State_$4318_storage_$",
+                  "typeIdentifier": "t_mapping$_t_address_$_t_struct$_State_$4580_storage_$",
                   "typeString": "mapping(address => struct Candidate.State)"
                 },
                 "typeName": {
-                  "id": 4356,
+                  "id": 4618,
                   "keyType": {
-                    "id": 4354,
+                    "id": 4616,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "2294:7:14",
+                    "src": "2327:7:14",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
                       "typeString": "address"
                     }
                   },
                   "nodeType": "Mapping",
-                  "src": "2286:35:14",
+                  "src": "2319:35:14",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_mapping$_t_address_$_t_struct$_State_$4318_storage_$",
+                    "typeIdentifier": "t_mapping$_t_address_$_t_struct$_State_$4580_storage_$",
                     "typeString": "mapping(address => struct Candidate.State)"
                   },
                   "valueType": {
                     "contractScope": null,
-                    "id": 4355,
+                    "id": 4617,
                     "name": "Candidate.State",
                     "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 4318,
-                    "src": "2305:15:14",
+                    "referencedDeclaration": 4580,
+                    "src": "2338:15:14",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_struct$_State_$4318_storage_ptr",
+                      "typeIdentifier": "t_struct$_State_$4580_storage_ptr",
                       "typeString": "struct Candidate.State"
                     }
                   }
@@ -1351,13 +1351,13 @@
             ],
             "name": "State",
             "nodeType": "StructDefinition",
-            "scope": 4359,
-            "src": "2082:257:14",
+            "scope": 4621,
+            "src": "2115:257:14",
             "visibility": "public"
           }
         ],
-        "scope": 4363,
-        "src": "1785:556:14"
+        "scope": 4625,
+        "src": "1818:556:14"
       },
       {
         "baseContracts": [],
@@ -1365,35 +1365,35 @@
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 4362,
+        "id": 4624,
         "linearizedBaseContracts": [
-          4362
+          4624
         ],
         "name": "State",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "constant": false,
-            "id": 4361,
+            "id": 4623,
             "name": "_state",
             "nodeType": "VariableDeclaration",
-            "scope": 4362,
-            "src": "2364:20:14",
+            "scope": 4624,
+            "src": "2397:20:14",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
-              "typeIdentifier": "t_struct$_State_$4358_storage",
+              "typeIdentifier": "t_struct$_State_$4620_storage",
               "typeString": "struct Storage.State"
             },
             "typeName": {
               "contractScope": null,
-              "id": 4360,
+              "id": 4622,
               "name": "Storage.State",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 4358,
-              "src": "2364:13:14",
+              "referencedDeclaration": 4620,
+              "src": "2397:13:14",
               "typeDescriptions": {
-                "typeIdentifier": "t_struct$_State_$4358_storage_ptr",
+                "typeIdentifier": "t_struct$_State_$4620_storage_ptr",
                 "typeString": "struct Storage.State"
               }
             },
@@ -1401,1418 +1401,1503 @@
             "visibility": "internal"
           }
         ],
-        "scope": 4363,
-        "src": "2343:44:14"
+        "scope": 4625,
+        "src": "2376:44:14"
       }
     ],
-    "src": "646:1742:14"
+    "src": "679:1742:14"
   },
   "legacyAST": {
-    "absolutePath": "/home/name/Desktop/Files/projects/dynamic/dollar/protocol/contracts/dao/State.sol",
-    "exportedSymbols": {
-      "Account": [
-        4278
-      ],
-      "Candidate": [
-        4319
-      ],
-      "Epoch": [
-        4299
-      ],
-      "State": [
-        4362
-      ],
-      "Storage": [
-        4359
-      ]
+    "attributes": {
+      "absolutePath": "/Volumes/Data/Code/planb/true-seigniorage-dollar/protocol/contracts/dao/State.sol",
+      "exportedSymbols": {
+        "Account": [
+          4540
+        ],
+        "Candidate": [
+          4581
+        ],
+        "Epoch": [
+          4561
+        ],
+        "State": [
+          4624
+        ],
+        "Storage": [
+          4621
+        ]
+      }
     },
-    "id": 4363,
-    "nodeType": "SourceUnit",
-    "nodes": [
+    "children": [
       {
-        "id": 4251,
-        "literals": [
-          "solidity",
-          "^",
-          "0.5",
-          ".17"
-        ],
-        "nodeType": "PragmaDirective",
-        "src": "646:24:14"
+        "attributes": {
+          "literals": [
+            "solidity",
+            "^",
+            "0.5",
+            ".17"
+          ]
+        },
+        "id": 4513,
+        "name": "PragmaDirective",
+        "src": "679:24:14"
       },
       {
-        "id": 4252,
-        "literals": [
-          "experimental",
-          "ABIEncoderV2"
-        ],
-        "nodeType": "PragmaDirective",
-        "src": "671:33:14"
+        "attributes": {
+          "literals": [
+            "experimental",
+            "ABIEncoderV2"
+          ]
+        },
+        "id": 4514,
+        "name": "PragmaDirective",
+        "src": "704:33:14"
       },
       {
-        "absolutePath": "@uniswap/v2-core/contracts/interfaces/IUniswapV2Pair.sol",
-        "file": "@uniswap/v2-core/contracts/interfaces/IUniswapV2Pair.sol",
-        "id": 4253,
-        "nodeType": "ImportDirective",
-        "scope": 4363,
-        "sourceUnit": 12440,
-        "src": "706:66:14",
-        "symbolAliases": [],
-        "unitAlias": ""
+        "attributes": {
+          "SourceUnit": 12702,
+          "absolutePath": "@uniswap/v2-core/contracts/interfaces/IUniswapV2Pair.sol",
+          "file": "@uniswap/v2-core/contracts/interfaces/IUniswapV2Pair.sol",
+          "scope": 4625,
+          "symbolAliases": [
+            null
+          ],
+          "unitAlias": ""
+        },
+        "id": 4515,
+        "name": "ImportDirective",
+        "src": "739:66:14"
       },
       {
-        "absolutePath": "/home/name/Desktop/Files/projects/dynamic/dollar/protocol/contracts/token/IDollar.sol",
-        "file": "../token/IDollar.sol",
-        "id": 4254,
-        "nodeType": "ImportDirective",
-        "scope": 4363,
-        "sourceUnit": 10585,
-        "src": "773:30:14",
-        "symbolAliases": [],
-        "unitAlias": ""
+        "attributes": {
+          "SourceUnit": 10847,
+          "absolutePath": "/Volumes/Data/Code/planb/true-seigniorage-dollar/protocol/contracts/token/IDollar.sol",
+          "file": "../token/IDollar.sol",
+          "scope": 4625,
+          "symbolAliases": [
+            null
+          ],
+          "unitAlias": ""
+        },
+        "id": 4516,
+        "name": "ImportDirective",
+        "src": "806:30:14"
       },
       {
-        "absolutePath": "/home/name/Desktop/Files/projects/dynamic/dollar/protocol/contracts/oracle/IOracle.sol",
-        "file": "../oracle/IOracle.sol",
-        "id": 4255,
-        "nodeType": "ImportDirective",
-        "scope": 4363,
-        "sourceUnit": 8612,
-        "src": "804:31:14",
-        "symbolAliases": [],
-        "unitAlias": ""
+        "attributes": {
+          "SourceUnit": 8874,
+          "absolutePath": "/Volumes/Data/Code/planb/true-seigniorage-dollar/protocol/contracts/oracle/IOracle.sol",
+          "file": "../oracle/IOracle.sol",
+          "scope": 4625,
+          "symbolAliases": [
+            null
+          ],
+          "unitAlias": ""
+        },
+        "id": 4517,
+        "name": "ImportDirective",
+        "src": "837:31:14"
       },
       {
-        "absolutePath": "/home/name/Desktop/Files/projects/dynamic/dollar/protocol/contracts/external/Decimal.sol",
-        "file": "../external/Decimal.sol",
-        "id": 4256,
-        "nodeType": "ImportDirective",
-        "scope": 4363,
-        "sourceUnit": 4911,
-        "src": "836:33:14",
-        "symbolAliases": [],
-        "unitAlias": ""
+        "attributes": {
+          "SourceUnit": 5173,
+          "absolutePath": "/Volumes/Data/Code/planb/true-seigniorage-dollar/protocol/contracts/external/Decimal.sol",
+          "file": "../external/Decimal.sol",
+          "scope": 4625,
+          "symbolAliases": [
+            null
+          ],
+          "unitAlias": ""
+        },
+        "id": 4518,
+        "name": "ImportDirective",
+        "src": "869:33:14"
       },
       {
-        "baseContracts": [],
-        "contractDependencies": [],
-        "contractKind": "contract",
-        "documentation": null,
-        "fullyImplemented": true,
-        "id": 4278,
-        "linearizedBaseContracts": [
-          4278
-        ],
-        "name": "Account",
-        "nodeType": "ContractDefinition",
-        "nodes": [
+        "attributes": {
+          "baseContracts": [
+            null
+          ],
+          "contractDependencies": [
+            null
+          ],
+          "contractKind": "contract",
+          "documentation": null,
+          "fullyImplemented": true,
+          "linearizedBaseContracts": [
+            4540
+          ],
+          "name": "Account",
+          "scope": 4625
+        },
+        "children": [
           {
-            "canonicalName": "Account.Status",
-            "id": 4260,
-            "members": [
-              {
-                "id": 4257,
-                "name": "Frozen",
-                "nodeType": "EnumValue",
-                "src": "916:6:14"
-              },
-              {
-                "id": 4258,
-                "name": "Fluid",
-                "nodeType": "EnumValue",
-                "src": "932:5:14"
-              },
-              {
-                "id": 4259,
-                "name": "Locked",
-                "nodeType": "EnumValue",
-                "src": "947:6:14"
-              }
-            ],
-            "name": "Status",
-            "nodeType": "EnumDefinition",
-            "src": "894:65:14"
-          },
-          {
-            "canonicalName": "Account.State",
-            "id": 4277,
-            "members": [
-              {
-                "constant": false,
-                "id": 4262,
-                "name": "staged",
-                "nodeType": "VariableDeclaration",
-                "scope": 4277,
-                "src": "988:14:14",
-                "stateVariable": false,
-                "storageLocation": "default",
-                "typeDescriptions": {
-                  "typeIdentifier": "t_uint256",
-                  "typeString": "uint256"
-                },
-                "typeName": {
-                  "id": 4261,
-                  "name": "uint256",
-                  "nodeType": "ElementaryTypeName",
-                  "src": "988:7:14",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_uint256",
-                    "typeString": "uint256"
-                  }
-                },
-                "value": null,
-                "visibility": "internal"
-              },
-              {
-                "constant": false,
-                "id": 4264,
-                "name": "balance",
-                "nodeType": "VariableDeclaration",
-                "scope": 4277,
-                "src": "1012:15:14",
-                "stateVariable": false,
-                "storageLocation": "default",
-                "typeDescriptions": {
-                  "typeIdentifier": "t_uint256",
-                  "typeString": "uint256"
-                },
-                "typeName": {
-                  "id": 4263,
-                  "name": "uint256",
-                  "nodeType": "ElementaryTypeName",
-                  "src": "1012:7:14",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_uint256",
-                    "typeString": "uint256"
-                  }
-                },
-                "value": null,
-                "visibility": "internal"
-              },
-              {
-                "constant": false,
-                "id": 4268,
-                "name": "coupons",
-                "nodeType": "VariableDeclaration",
-                "scope": 4277,
-                "src": "1037:35:14",
-                "stateVariable": false,
-                "storageLocation": "default",
-                "typeDescriptions": {
-                  "typeIdentifier": "t_mapping$_t_uint256_$_t_uint256_$",
-                  "typeString": "mapping(uint256 => uint256)"
-                },
-                "typeName": {
-                  "id": 4267,
-                  "keyType": {
-                    "id": 4265,
-                    "name": "uint256",
-                    "nodeType": "ElementaryTypeName",
-                    "src": "1045:7:14",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_uint256",
-                      "typeString": "uint256"
-                    }
-                  },
-                  "nodeType": "Mapping",
-                  "src": "1037:27:14",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_mapping$_t_uint256_$_t_uint256_$",
-                    "typeString": "mapping(uint256 => uint256)"
-                  },
-                  "valueType": {
-                    "id": 4266,
-                    "name": "uint256",
-                    "nodeType": "ElementaryTypeName",
-                    "src": "1056:7:14",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_uint256",
-                      "typeString": "uint256"
-                    }
-                  }
-                },
-                "value": null,
-                "visibility": "internal"
-              },
-              {
-                "constant": false,
-                "id": 4272,
-                "name": "couponAllowances",
-                "nodeType": "VariableDeclaration",
-                "scope": 4277,
-                "src": "1082:44:14",
-                "stateVariable": false,
-                "storageLocation": "default",
-                "typeDescriptions": {
-                  "typeIdentifier": "t_mapping$_t_address_$_t_uint256_$",
-                  "typeString": "mapping(address => uint256)"
-                },
-                "typeName": {
-                  "id": 4271,
-                  "keyType": {
-                    "id": 4269,
-                    "name": "address",
-                    "nodeType": "ElementaryTypeName",
-                    "src": "1090:7:14",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_address",
-                      "typeString": "address"
-                    }
-                  },
-                  "nodeType": "Mapping",
-                  "src": "1082:27:14",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_mapping$_t_address_$_t_uint256_$",
-                    "typeString": "mapping(address => uint256)"
-                  },
-                  "valueType": {
-                    "id": 4270,
-                    "name": "uint256",
-                    "nodeType": "ElementaryTypeName",
-                    "src": "1101:7:14",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_uint256",
-                      "typeString": "uint256"
-                    }
-                  }
-                },
-                "value": null,
-                "visibility": "internal"
-              },
-              {
-                "constant": false,
-                "id": 4274,
-                "name": "fluidUntil",
-                "nodeType": "VariableDeclaration",
-                "scope": 4277,
-                "src": "1136:18:14",
-                "stateVariable": false,
-                "storageLocation": "default",
-                "typeDescriptions": {
-                  "typeIdentifier": "t_uint256",
-                  "typeString": "uint256"
-                },
-                "typeName": {
-                  "id": 4273,
-                  "name": "uint256",
-                  "nodeType": "ElementaryTypeName",
-                  "src": "1136:7:14",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_uint256",
-                    "typeString": "uint256"
-                  }
-                },
-                "value": null,
-                "visibility": "internal"
-              },
-              {
-                "constant": false,
-                "id": 4276,
-                "name": "lockedUntil",
-                "nodeType": "VariableDeclaration",
-                "scope": 4277,
-                "src": "1164:19:14",
-                "stateVariable": false,
-                "storageLocation": "default",
-                "typeDescriptions": {
-                  "typeIdentifier": "t_uint256",
-                  "typeString": "uint256"
-                },
-                "typeName": {
-                  "id": 4275,
-                  "name": "uint256",
-                  "nodeType": "ElementaryTypeName",
-                  "src": "1164:7:14",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_uint256",
-                    "typeString": "uint256"
-                  }
-                },
-                "value": null,
-                "visibility": "internal"
-              }
-            ],
-            "name": "State",
-            "nodeType": "StructDefinition",
-            "scope": 4278,
-            "src": "965:225:14",
-            "visibility": "public"
-          }
-        ],
-        "scope": 4363,
-        "src": "871:321:14"
-      },
-      {
-        "baseContracts": [],
-        "contractDependencies": [],
-        "contractKind": "contract",
-        "documentation": null,
-        "fullyImplemented": true,
-        "id": 4299,
-        "linearizedBaseContracts": [
-          4299
-        ],
-        "name": "Epoch",
-        "nodeType": "ContractDefinition",
-        "nodes": [
-          {
-            "canonicalName": "Epoch.Global",
-            "id": 4285,
-            "members": [
-              {
-                "constant": false,
-                "id": 4280,
-                "name": "start",
-                "nodeType": "VariableDeclaration",
-                "scope": 4285,
-                "src": "1239:13:14",
-                "stateVariable": false,
-                "storageLocation": "default",
-                "typeDescriptions": {
-                  "typeIdentifier": "t_uint256",
-                  "typeString": "uint256"
-                },
-                "typeName": {
-                  "id": 4279,
-                  "name": "uint256",
-                  "nodeType": "ElementaryTypeName",
-                  "src": "1239:7:14",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_uint256",
-                    "typeString": "uint256"
-                  }
-                },
-                "value": null,
-                "visibility": "internal"
-              },
-              {
-                "constant": false,
-                "id": 4282,
-                "name": "period",
-                "nodeType": "VariableDeclaration",
-                "scope": 4285,
-                "src": "1262:14:14",
-                "stateVariable": false,
-                "storageLocation": "default",
-                "typeDescriptions": {
-                  "typeIdentifier": "t_uint256",
-                  "typeString": "uint256"
-                },
-                "typeName": {
-                  "id": 4281,
-                  "name": "uint256",
-                  "nodeType": "ElementaryTypeName",
-                  "src": "1262:7:14",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_uint256",
-                    "typeString": "uint256"
-                  }
-                },
-                "value": null,
-                "visibility": "internal"
-              },
-              {
-                "constant": false,
-                "id": 4284,
-                "name": "current",
-                "nodeType": "VariableDeclaration",
-                "scope": 4285,
-                "src": "1286:15:14",
-                "stateVariable": false,
-                "storageLocation": "default",
-                "typeDescriptions": {
-                  "typeIdentifier": "t_uint256",
-                  "typeString": "uint256"
-                },
-                "typeName": {
-                  "id": 4283,
-                  "name": "uint256",
-                  "nodeType": "ElementaryTypeName",
-                  "src": "1286:7:14",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_uint256",
-                    "typeString": "uint256"
-                  }
-                },
-                "value": null,
-                "visibility": "internal"
-              }
-            ],
-            "name": "Global",
-            "nodeType": "StructDefinition",
-            "scope": 4299,
-            "src": "1215:93:14",
-            "visibility": "public"
-          },
-          {
-            "canonicalName": "Epoch.Coupons",
-            "id": 4293,
-            "members": [
-              {
-                "constant": false,
-                "id": 4287,
-                "name": "outstanding",
-                "nodeType": "VariableDeclaration",
-                "scope": 4293,
-                "src": "1339:19:14",
-                "stateVariable": false,
-                "storageLocation": "default",
-                "typeDescriptions": {
-                  "typeIdentifier": "t_uint256",
-                  "typeString": "uint256"
-                },
-                "typeName": {
-                  "id": 4286,
-                  "name": "uint256",
-                  "nodeType": "ElementaryTypeName",
-                  "src": "1339:7:14",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_uint256",
-                    "typeString": "uint256"
-                  }
-                },
-                "value": null,
-                "visibility": "internal"
-              },
-              {
-                "constant": false,
-                "id": 4289,
-                "name": "expiration",
-                "nodeType": "VariableDeclaration",
-                "scope": 4293,
-                "src": "1368:18:14",
-                "stateVariable": false,
-                "storageLocation": "default",
-                "typeDescriptions": {
-                  "typeIdentifier": "t_uint256",
-                  "typeString": "uint256"
-                },
-                "typeName": {
-                  "id": 4288,
-                  "name": "uint256",
-                  "nodeType": "ElementaryTypeName",
-                  "src": "1368:7:14",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_uint256",
-                    "typeString": "uint256"
-                  }
-                },
-                "value": null,
-                "visibility": "internal"
-              },
-              {
-                "constant": false,
-                "id": 4292,
-                "name": "expiring",
-                "nodeType": "VariableDeclaration",
-                "scope": 4293,
-                "src": "1396:18:14",
-                "stateVariable": false,
-                "storageLocation": "default",
-                "typeDescriptions": {
-                  "typeIdentifier": "t_array$_t_uint256_$dyn_storage_ptr",
-                  "typeString": "uint256[]"
-                },
-                "typeName": {
-                  "baseType": {
-                    "id": 4290,
-                    "name": "uint256",
-                    "nodeType": "ElementaryTypeName",
-                    "src": "1396:7:14",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_uint256",
-                      "typeString": "uint256"
-                    }
-                  },
-                  "id": 4291,
-                  "length": null,
-                  "nodeType": "ArrayTypeName",
-                  "src": "1396:9:14",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_array$_t_uint256_$dyn_storage_ptr",
-                    "typeString": "uint256[]"
-                  }
-                },
-                "value": null,
-                "visibility": "internal"
-              }
-            ],
-            "name": "Coupons",
-            "nodeType": "StructDefinition",
-            "scope": 4299,
-            "src": "1314:107:14",
-            "visibility": "public"
-          },
-          {
-            "canonicalName": "Epoch.State",
-            "id": 4298,
-            "members": [
-              {
-                "constant": false,
-                "id": 4295,
-                "name": "bonded",
-                "nodeType": "VariableDeclaration",
-                "scope": 4298,
-                "src": "1450:14:14",
-                "stateVariable": false,
-                "storageLocation": "default",
-                "typeDescriptions": {
-                  "typeIdentifier": "t_uint256",
-                  "typeString": "uint256"
-                },
-                "typeName": {
-                  "id": 4294,
-                  "name": "uint256",
-                  "nodeType": "ElementaryTypeName",
-                  "src": "1450:7:14",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_uint256",
-                    "typeString": "uint256"
-                  }
-                },
-                "value": null,
-                "visibility": "internal"
-              },
-              {
-                "constant": false,
-                "id": 4297,
-                "name": "coupons",
-                "nodeType": "VariableDeclaration",
-                "scope": 4298,
-                "src": "1474:15:14",
-                "stateVariable": false,
-                "storageLocation": "default",
-                "typeDescriptions": {
-                  "typeIdentifier": "t_struct$_Coupons_$4293_storage_ptr",
-                  "typeString": "struct Epoch.Coupons"
-                },
-                "typeName": {
-                  "contractScope": null,
-                  "id": 4296,
-                  "name": "Coupons",
-                  "nodeType": "UserDefinedTypeName",
-                  "referencedDeclaration": 4293,
-                  "src": "1474:7:14",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_struct$_Coupons_$4293_storage_ptr",
-                    "typeString": "struct Epoch.Coupons"
-                  }
-                },
-                "value": null,
-                "visibility": "internal"
-              }
-            ],
-            "name": "State",
-            "nodeType": "StructDefinition",
-            "scope": 4299,
-            "src": "1427:69:14",
-            "visibility": "public"
-          }
-        ],
-        "scope": 4363,
-        "src": "1194:304:14"
-      },
-      {
-        "baseContracts": [],
-        "contractDependencies": [],
-        "contractKind": "contract",
-        "documentation": null,
-        "fullyImplemented": true,
-        "id": 4319,
-        "linearizedBaseContracts": [
-          4319
-        ],
-        "name": "Candidate",
-        "nodeType": "ContractDefinition",
-        "nodes": [
-          {
-            "canonicalName": "Candidate.Vote",
-            "id": 4303,
-            "members": [
-              {
-                "id": 4300,
-                "name": "UNDECIDED",
-                "nodeType": "EnumValue",
-                "src": "1545:9:14"
-              },
-              {
-                "id": 4301,
-                "name": "APPROVE",
-                "nodeType": "EnumValue",
-                "src": "1564:7:14"
-              },
-              {
-                "id": 4302,
-                "name": "REJECT",
-                "nodeType": "EnumValue",
-                "src": "1581:6:14"
-              }
-            ],
-            "name": "Vote",
-            "nodeType": "EnumDefinition",
-            "src": "1525:68:14"
-          },
-          {
-            "canonicalName": "Candidate.State",
-            "id": 4318,
-            "members": [
-              {
-                "constant": false,
-                "id": 4305,
-                "name": "start",
-                "nodeType": "VariableDeclaration",
-                "scope": 4318,
-                "src": "1622:13:14",
-                "stateVariable": false,
-                "storageLocation": "default",
-                "typeDescriptions": {
-                  "typeIdentifier": "t_uint256",
-                  "typeString": "uint256"
-                },
-                "typeName": {
-                  "id": 4304,
-                  "name": "uint256",
-                  "nodeType": "ElementaryTypeName",
-                  "src": "1622:7:14",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_uint256",
-                    "typeString": "uint256"
-                  }
-                },
-                "value": null,
-                "visibility": "internal"
-              },
-              {
-                "constant": false,
-                "id": 4307,
-                "name": "period",
-                "nodeType": "VariableDeclaration",
-                "scope": 4318,
-                "src": "1645:14:14",
-                "stateVariable": false,
-                "storageLocation": "default",
-                "typeDescriptions": {
-                  "typeIdentifier": "t_uint256",
-                  "typeString": "uint256"
-                },
-                "typeName": {
-                  "id": 4306,
-                  "name": "uint256",
-                  "nodeType": "ElementaryTypeName",
-                  "src": "1645:7:14",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_uint256",
-                    "typeString": "uint256"
-                  }
-                },
-                "value": null,
-                "visibility": "internal"
-              },
-              {
-                "constant": false,
-                "id": 4309,
-                "name": "approve",
-                "nodeType": "VariableDeclaration",
-                "scope": 4318,
-                "src": "1669:15:14",
-                "stateVariable": false,
-                "storageLocation": "default",
-                "typeDescriptions": {
-                  "typeIdentifier": "t_uint256",
-                  "typeString": "uint256"
-                },
-                "typeName": {
-                  "id": 4308,
-                  "name": "uint256",
-                  "nodeType": "ElementaryTypeName",
-                  "src": "1669:7:14",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_uint256",
-                    "typeString": "uint256"
-                  }
-                },
-                "value": null,
-                "visibility": "internal"
-              },
-              {
-                "constant": false,
-                "id": 4311,
-                "name": "reject",
-                "nodeType": "VariableDeclaration",
-                "scope": 4318,
-                "src": "1694:14:14",
-                "stateVariable": false,
-                "storageLocation": "default",
-                "typeDescriptions": {
-                  "typeIdentifier": "t_uint256",
-                  "typeString": "uint256"
-                },
-                "typeName": {
-                  "id": 4310,
-                  "name": "uint256",
-                  "nodeType": "ElementaryTypeName",
-                  "src": "1694:7:14",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_uint256",
-                    "typeString": "uint256"
-                  }
-                },
-                "value": null,
-                "visibility": "internal"
-              },
-              {
-                "constant": false,
-                "id": 4315,
-                "name": "votes",
-                "nodeType": "VariableDeclaration",
-                "scope": 4318,
-                "src": "1718:30:14",
-                "stateVariable": false,
-                "storageLocation": "default",
-                "typeDescriptions": {
-                  "typeIdentifier": "t_mapping$_t_address_$_t_enum$_Vote_$4303_$",
-                  "typeString": "mapping(address => enum Candidate.Vote)"
-                },
-                "typeName": {
-                  "id": 4314,
-                  "keyType": {
-                    "id": 4312,
-                    "name": "address",
-                    "nodeType": "ElementaryTypeName",
-                    "src": "1726:7:14",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_address",
-                      "typeString": "address"
-                    }
-                  },
-                  "nodeType": "Mapping",
-                  "src": "1718:24:14",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_mapping$_t_address_$_t_enum$_Vote_$4303_$",
-                    "typeString": "mapping(address => enum Candidate.Vote)"
-                  },
-                  "valueType": {
-                    "contractScope": null,
-                    "id": 4313,
-                    "name": "Vote",
-                    "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 4303,
-                    "src": "1737:4:14",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_enum$_Vote_$4303",
-                      "typeString": "enum Candidate.Vote"
-                    }
-                  }
-                },
-                "value": null,
-                "visibility": "internal"
-              },
-              {
-                "constant": false,
-                "id": 4317,
-                "name": "initialized",
-                "nodeType": "VariableDeclaration",
-                "scope": 4318,
-                "src": "1758:16:14",
-                "stateVariable": false,
-                "storageLocation": "default",
-                "typeDescriptions": {
-                  "typeIdentifier": "t_bool",
-                  "typeString": "bool"
-                },
-                "typeName": {
-                  "id": 4316,
-                  "name": "bool",
-                  "nodeType": "ElementaryTypeName",
-                  "src": "1758:4:14",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_bool",
-                    "typeString": "bool"
-                  }
-                },
-                "value": null,
-                "visibility": "internal"
-              }
-            ],
-            "name": "State",
-            "nodeType": "StructDefinition",
-            "scope": 4319,
-            "src": "1599:182:14",
-            "visibility": "public"
-          }
-        ],
-        "scope": 4363,
-        "src": "1500:283:14"
-      },
-      {
-        "baseContracts": [],
-        "contractDependencies": [],
-        "contractKind": "contract",
-        "documentation": null,
-        "fullyImplemented": true,
-        "id": 4359,
-        "linearizedBaseContracts": [
-          4359
-        ],
-        "name": "Storage",
-        "nodeType": "ContractDefinition",
-        "nodes": [
-          {
-            "canonicalName": "Storage.Provider",
-            "id": 4326,
-            "members": [
-              {
-                "constant": false,
-                "id": 4321,
-                "name": "dollar",
-                "nodeType": "VariableDeclaration",
-                "scope": 4326,
-                "src": "1834:14:14",
-                "stateVariable": false,
-                "storageLocation": "default",
-                "typeDescriptions": {
-                  "typeIdentifier": "t_contract$_IDollar_$10584",
-                  "typeString": "contract IDollar"
-                },
-                "typeName": {
-                  "contractScope": null,
-                  "id": 4320,
-                  "name": "IDollar",
-                  "nodeType": "UserDefinedTypeName",
-                  "referencedDeclaration": 10584,
-                  "src": "1834:7:14",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_contract$_IDollar_$10584",
-                    "typeString": "contract IDollar"
-                  }
-                },
-                "value": null,
-                "visibility": "internal"
-              },
-              {
-                "constant": false,
-                "id": 4323,
-                "name": "oracle",
-                "nodeType": "VariableDeclaration",
-                "scope": 4326,
-                "src": "1858:14:14",
-                "stateVariable": false,
-                "storageLocation": "default",
-                "typeDescriptions": {
-                  "typeIdentifier": "t_contract$_IOracle_$8611",
-                  "typeString": "contract IOracle"
-                },
-                "typeName": {
-                  "contractScope": null,
-                  "id": 4322,
-                  "name": "IOracle",
-                  "nodeType": "UserDefinedTypeName",
-                  "referencedDeclaration": 8611,
-                  "src": "1858:7:14",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_contract$_IOracle_$8611",
-                    "typeString": "contract IOracle"
-                  }
-                },
-                "value": null,
-                "visibility": "internal"
-              },
-              {
-                "constant": false,
-                "id": 4325,
-                "name": "pool",
-                "nodeType": "VariableDeclaration",
-                "scope": 4326,
-                "src": "1882:12:14",
-                "stateVariable": false,
-                "storageLocation": "default",
-                "typeDescriptions": {
-                  "typeIdentifier": "t_address",
-                  "typeString": "address"
-                },
-                "typeName": {
-                  "id": 4324,
-                  "name": "address",
-                  "nodeType": "ElementaryTypeName",
-                  "src": "1882:7:14",
-                  "stateMutability": "nonpayable",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_address",
-                    "typeString": "address"
-                  }
-                },
-                "value": null,
-                "visibility": "internal"
-              }
-            ],
-            "name": "Provider",
-            "nodeType": "StructDefinition",
-            "scope": 4359,
-            "src": "1808:93:14",
-            "visibility": "public"
-          },
-          {
-            "canonicalName": "Storage.Balance",
-            "id": 4339,
-            "members": [
-              {
-                "constant": false,
-                "id": 4328,
-                "name": "supply",
-                "nodeType": "VariableDeclaration",
-                "scope": 4339,
-                "src": "1932:14:14",
-                "stateVariable": false,
-                "storageLocation": "default",
-                "typeDescriptions": {
-                  "typeIdentifier": "t_uint256",
-                  "typeString": "uint256"
-                },
-                "typeName": {
-                  "id": 4327,
-                  "name": "uint256",
-                  "nodeType": "ElementaryTypeName",
-                  "src": "1932:7:14",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_uint256",
-                    "typeString": "uint256"
-                  }
-                },
-                "value": null,
-                "visibility": "internal"
-              },
-              {
-                "constant": false,
-                "id": 4330,
-                "name": "bonded",
-                "nodeType": "VariableDeclaration",
-                "scope": 4339,
-                "src": "1956:14:14",
-                "stateVariable": false,
-                "storageLocation": "default",
-                "typeDescriptions": {
-                  "typeIdentifier": "t_uint256",
-                  "typeString": "uint256"
-                },
-                "typeName": {
-                  "id": 4329,
-                  "name": "uint256",
-                  "nodeType": "ElementaryTypeName",
-                  "src": "1956:7:14",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_uint256",
-                    "typeString": "uint256"
-                  }
-                },
-                "value": null,
-                "visibility": "internal"
-              },
-              {
-                "constant": false,
-                "id": 4332,
-                "name": "staged",
-                "nodeType": "VariableDeclaration",
-                "scope": 4339,
-                "src": "1980:14:14",
-                "stateVariable": false,
-                "storageLocation": "default",
-                "typeDescriptions": {
-                  "typeIdentifier": "t_uint256",
-                  "typeString": "uint256"
-                },
-                "typeName": {
-                  "id": 4331,
-                  "name": "uint256",
-                  "nodeType": "ElementaryTypeName",
-                  "src": "1980:7:14",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_uint256",
-                    "typeString": "uint256"
-                  }
-                },
-                "value": null,
-                "visibility": "internal"
-              },
-              {
-                "constant": false,
-                "id": 4334,
-                "name": "redeemable",
-                "nodeType": "VariableDeclaration",
-                "scope": 4339,
-                "src": "2004:18:14",
-                "stateVariable": false,
-                "storageLocation": "default",
-                "typeDescriptions": {
-                  "typeIdentifier": "t_uint256",
-                  "typeString": "uint256"
-                },
-                "typeName": {
-                  "id": 4333,
-                  "name": "uint256",
-                  "nodeType": "ElementaryTypeName",
-                  "src": "2004:7:14",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_uint256",
-                    "typeString": "uint256"
-                  }
-                },
-                "value": null,
-                "visibility": "internal"
-              },
-              {
-                "constant": false,
-                "id": 4336,
-                "name": "debt",
-                "nodeType": "VariableDeclaration",
-                "scope": 4339,
-                "src": "2032:12:14",
-                "stateVariable": false,
-                "storageLocation": "default",
-                "typeDescriptions": {
-                  "typeIdentifier": "t_uint256",
-                  "typeString": "uint256"
-                },
-                "typeName": {
-                  "id": 4335,
-                  "name": "uint256",
-                  "nodeType": "ElementaryTypeName",
-                  "src": "2032:7:14",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_uint256",
-                    "typeString": "uint256"
-                  }
-                },
-                "value": null,
-                "visibility": "internal"
-              },
-              {
-                "constant": false,
-                "id": 4338,
-                "name": "coupons",
-                "nodeType": "VariableDeclaration",
-                "scope": 4339,
-                "src": "2054:15:14",
-                "stateVariable": false,
-                "storageLocation": "default",
-                "typeDescriptions": {
-                  "typeIdentifier": "t_uint256",
-                  "typeString": "uint256"
-                },
-                "typeName": {
-                  "id": 4337,
-                  "name": "uint256",
-                  "nodeType": "ElementaryTypeName",
-                  "src": "2054:7:14",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_uint256",
-                    "typeString": "uint256"
-                  }
-                },
-                "value": null,
-                "visibility": "internal"
-              }
-            ],
-            "name": "Balance",
-            "nodeType": "StructDefinition",
-            "scope": 4359,
-            "src": "1907:169:14",
-            "visibility": "public"
-          },
-          {
-            "canonicalName": "Storage.State",
-            "id": 4358,
-            "members": [
-              {
-                "constant": false,
-                "id": 4341,
-                "name": "epoch",
-                "nodeType": "VariableDeclaration",
-                "scope": 4358,
-                "src": "2105:18:14",
-                "stateVariable": false,
-                "storageLocation": "default",
-                "typeDescriptions": {
-                  "typeIdentifier": "t_struct$_Global_$4285_storage_ptr",
-                  "typeString": "struct Epoch.Global"
-                },
-                "typeName": {
-                  "contractScope": null,
-                  "id": 4340,
-                  "name": "Epoch.Global",
-                  "nodeType": "UserDefinedTypeName",
-                  "referencedDeclaration": 4285,
-                  "src": "2105:12:14",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_struct$_Global_$4285_storage_ptr",
-                    "typeString": "struct Epoch.Global"
-                  }
-                },
-                "value": null,
-                "visibility": "internal"
-              },
-              {
-                "constant": false,
-                "id": 4343,
-                "name": "balance",
-                "nodeType": "VariableDeclaration",
-                "scope": 4358,
-                "src": "2133:15:14",
-                "stateVariable": false,
-                "storageLocation": "default",
-                "typeDescriptions": {
-                  "typeIdentifier": "t_struct$_Balance_$4339_storage_ptr",
-                  "typeString": "struct Storage.Balance"
-                },
-                "typeName": {
-                  "contractScope": null,
-                  "id": 4342,
-                  "name": "Balance",
-                  "nodeType": "UserDefinedTypeName",
-                  "referencedDeclaration": 4339,
-                  "src": "2133:7:14",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_struct$_Balance_$4339_storage_ptr",
-                    "typeString": "struct Storage.Balance"
-                  }
-                },
-                "value": null,
-                "visibility": "internal"
-              },
-              {
-                "constant": false,
-                "id": 4345,
-                "name": "provider",
-                "nodeType": "VariableDeclaration",
-                "scope": 4358,
-                "src": "2158:17:14",
-                "stateVariable": false,
-                "storageLocation": "default",
-                "typeDescriptions": {
-                  "typeIdentifier": "t_struct$_Provider_$4326_storage_ptr",
-                  "typeString": "struct Storage.Provider"
-                },
-                "typeName": {
-                  "contractScope": null,
-                  "id": 4344,
-                  "name": "Provider",
-                  "nodeType": "UserDefinedTypeName",
-                  "referencedDeclaration": 4326,
-                  "src": "2158:8:14",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_struct$_Provider_$4326_storage_ptr",
-                    "typeString": "struct Storage.Provider"
-                  }
-                },
-                "value": null,
-                "visibility": "internal"
-              },
-              {
-                "constant": false,
-                "id": 4349,
-                "name": "accounts",
-                "nodeType": "VariableDeclaration",
-                "scope": 4358,
-                "src": "2186:42:14",
-                "stateVariable": false,
-                "storageLocation": "default",
-                "typeDescriptions": {
-                  "typeIdentifier": "t_mapping$_t_address_$_t_struct$_State_$4277_storage_$",
-                  "typeString": "mapping(address => struct Account.State)"
-                },
-                "typeName": {
-                  "id": 4348,
-                  "keyType": {
-                    "id": 4346,
-                    "name": "address",
-                    "nodeType": "ElementaryTypeName",
-                    "src": "2194:7:14",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_address",
-                      "typeString": "address"
-                    }
-                  },
-                  "nodeType": "Mapping",
-                  "src": "2186:33:14",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_mapping$_t_address_$_t_struct$_State_$4277_storage_$",
-                    "typeString": "mapping(address => struct Account.State)"
-                  },
-                  "valueType": {
-                    "contractScope": null,
-                    "id": 4347,
-                    "name": "Account.State",
-                    "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 4277,
-                    "src": "2205:13:14",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_struct$_State_$4277_storage_ptr",
-                      "typeString": "struct Account.State"
-                    }
-                  }
-                },
-                "value": null,
-                "visibility": "internal"
-              },
-              {
-                "constant": false,
-                "id": 4353,
-                "name": "epochs",
-                "nodeType": "VariableDeclaration",
-                "scope": 4358,
-                "src": "2238:38:14",
-                "stateVariable": false,
-                "storageLocation": "default",
-                "typeDescriptions": {
-                  "typeIdentifier": "t_mapping$_t_uint256_$_t_struct$_State_$4298_storage_$",
-                  "typeString": "mapping(uint256 => struct Epoch.State)"
-                },
-                "typeName": {
-                  "id": 4352,
-                  "keyType": {
-                    "id": 4350,
-                    "name": "uint256",
-                    "nodeType": "ElementaryTypeName",
-                    "src": "2246:7:14",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_uint256",
-                      "typeString": "uint256"
-                    }
-                  },
-                  "nodeType": "Mapping",
-                  "src": "2238:31:14",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_mapping$_t_uint256_$_t_struct$_State_$4298_storage_$",
-                    "typeString": "mapping(uint256 => struct Epoch.State)"
-                  },
-                  "valueType": {
-                    "contractScope": null,
-                    "id": 4351,
-                    "name": "Epoch.State",
-                    "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 4298,
-                    "src": "2257:11:14",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_struct$_State_$4298_storage_ptr",
-                      "typeString": "struct Epoch.State"
-                    }
-                  }
-                },
-                "value": null,
-                "visibility": "internal"
-              },
-              {
-                "constant": false,
-                "id": 4357,
-                "name": "candidates",
-                "nodeType": "VariableDeclaration",
-                "scope": 4358,
-                "src": "2286:46:14",
-                "stateVariable": false,
-                "storageLocation": "default",
-                "typeDescriptions": {
-                  "typeIdentifier": "t_mapping$_t_address_$_t_struct$_State_$4318_storage_$",
-                  "typeString": "mapping(address => struct Candidate.State)"
-                },
-                "typeName": {
-                  "id": 4356,
-                  "keyType": {
-                    "id": 4354,
-                    "name": "address",
-                    "nodeType": "ElementaryTypeName",
-                    "src": "2294:7:14",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_address",
-                      "typeString": "address"
-                    }
-                  },
-                  "nodeType": "Mapping",
-                  "src": "2286:35:14",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_mapping$_t_address_$_t_struct$_State_$4318_storage_$",
-                    "typeString": "mapping(address => struct Candidate.State)"
-                  },
-                  "valueType": {
-                    "contractScope": null,
-                    "id": 4355,
-                    "name": "Candidate.State",
-                    "nodeType": "UserDefinedTypeName",
-                    "referencedDeclaration": 4318,
-                    "src": "2305:15:14",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_struct$_State_$4318_storage_ptr",
-                      "typeString": "struct Candidate.State"
-                    }
-                  }
-                },
-                "value": null,
-                "visibility": "internal"
-              }
-            ],
-            "name": "State",
-            "nodeType": "StructDefinition",
-            "scope": 4359,
-            "src": "2082:257:14",
-            "visibility": "public"
-          }
-        ],
-        "scope": 4363,
-        "src": "1785:556:14"
-      },
-      {
-        "baseContracts": [],
-        "contractDependencies": [],
-        "contractKind": "contract",
-        "documentation": null,
-        "fullyImplemented": true,
-        "id": 4362,
-        "linearizedBaseContracts": [
-          4362
-        ],
-        "name": "State",
-        "nodeType": "ContractDefinition",
-        "nodes": [
-          {
-            "constant": false,
-            "id": 4361,
-            "name": "_state",
-            "nodeType": "VariableDeclaration",
-            "scope": 4362,
-            "src": "2364:20:14",
-            "stateVariable": true,
-            "storageLocation": "default",
-            "typeDescriptions": {
-              "typeIdentifier": "t_struct$_State_$4358_storage",
-              "typeString": "struct Storage.State"
+            "attributes": {
+              "canonicalName": "Account.Status",
+              "name": "Status"
             },
-            "typeName": {
-              "contractScope": null,
-              "id": 4360,
-              "name": "Storage.State",
-              "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 4358,
-              "src": "2364:13:14",
-              "typeDescriptions": {
-                "typeIdentifier": "t_struct$_State_$4358_storage_ptr",
-                "typeString": "struct Storage.State"
+            "children": [
+              {
+                "attributes": {
+                  "name": "Frozen"
+                },
+                "id": 4519,
+                "name": "EnumValue",
+                "src": "949:6:14"
+              },
+              {
+                "attributes": {
+                  "name": "Fluid"
+                },
+                "id": 4520,
+                "name": "EnumValue",
+                "src": "965:5:14"
+              },
+              {
+                "attributes": {
+                  "name": "Locked"
+                },
+                "id": 4521,
+                "name": "EnumValue",
+                "src": "980:6:14"
               }
+            ],
+            "id": 4522,
+            "name": "EnumDefinition",
+            "src": "927:65:14"
+          },
+          {
+            "attributes": {
+              "canonicalName": "Account.State",
+              "name": "State",
+              "scope": 4540,
+              "visibility": "public"
             },
-            "value": null,
-            "visibility": "internal"
+            "children": [
+              {
+                "attributes": {
+                  "constant": false,
+                  "name": "staged",
+                  "scope": 4539,
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "type": "uint256",
+                  "value": null,
+                  "visibility": "internal"
+                },
+                "children": [
+                  {
+                    "attributes": {
+                      "name": "uint256",
+                      "type": "uint256"
+                    },
+                    "id": 4523,
+                    "name": "ElementaryTypeName",
+                    "src": "1021:7:14"
+                  }
+                ],
+                "id": 4524,
+                "name": "VariableDeclaration",
+                "src": "1021:14:14"
+              },
+              {
+                "attributes": {
+                  "constant": false,
+                  "name": "balance",
+                  "scope": 4539,
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "type": "uint256",
+                  "value": null,
+                  "visibility": "internal"
+                },
+                "children": [
+                  {
+                    "attributes": {
+                      "name": "uint256",
+                      "type": "uint256"
+                    },
+                    "id": 4525,
+                    "name": "ElementaryTypeName",
+                    "src": "1045:7:14"
+                  }
+                ],
+                "id": 4526,
+                "name": "VariableDeclaration",
+                "src": "1045:15:14"
+              },
+              {
+                "attributes": {
+                  "constant": false,
+                  "name": "coupons",
+                  "scope": 4539,
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "type": "mapping(uint256 => uint256)",
+                  "value": null,
+                  "visibility": "internal"
+                },
+                "children": [
+                  {
+                    "attributes": {
+                      "type": "mapping(uint256 => uint256)"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint256",
+                          "type": "uint256"
+                        },
+                        "id": 4527,
+                        "name": "ElementaryTypeName",
+                        "src": "1078:7:14"
+                      },
+                      {
+                        "attributes": {
+                          "name": "uint256",
+                          "type": "uint256"
+                        },
+                        "id": 4528,
+                        "name": "ElementaryTypeName",
+                        "src": "1089:7:14"
+                      }
+                    ],
+                    "id": 4529,
+                    "name": "Mapping",
+                    "src": "1070:27:14"
+                  }
+                ],
+                "id": 4530,
+                "name": "VariableDeclaration",
+                "src": "1070:35:14"
+              },
+              {
+                "attributes": {
+                  "constant": false,
+                  "name": "couponAllowances",
+                  "scope": 4539,
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "type": "mapping(address => uint256)",
+                  "value": null,
+                  "visibility": "internal"
+                },
+                "children": [
+                  {
+                    "attributes": {
+                      "type": "mapping(address => uint256)"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "address",
+                          "type": "address"
+                        },
+                        "id": 4531,
+                        "name": "ElementaryTypeName",
+                        "src": "1123:7:14"
+                      },
+                      {
+                        "attributes": {
+                          "name": "uint256",
+                          "type": "uint256"
+                        },
+                        "id": 4532,
+                        "name": "ElementaryTypeName",
+                        "src": "1134:7:14"
+                      }
+                    ],
+                    "id": 4533,
+                    "name": "Mapping",
+                    "src": "1115:27:14"
+                  }
+                ],
+                "id": 4534,
+                "name": "VariableDeclaration",
+                "src": "1115:44:14"
+              },
+              {
+                "attributes": {
+                  "constant": false,
+                  "name": "fluidUntil",
+                  "scope": 4539,
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "type": "uint256",
+                  "value": null,
+                  "visibility": "internal"
+                },
+                "children": [
+                  {
+                    "attributes": {
+                      "name": "uint256",
+                      "type": "uint256"
+                    },
+                    "id": 4535,
+                    "name": "ElementaryTypeName",
+                    "src": "1169:7:14"
+                  }
+                ],
+                "id": 4536,
+                "name": "VariableDeclaration",
+                "src": "1169:18:14"
+              },
+              {
+                "attributes": {
+                  "constant": false,
+                  "name": "lockedUntil",
+                  "scope": 4539,
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "type": "uint256",
+                  "value": null,
+                  "visibility": "internal"
+                },
+                "children": [
+                  {
+                    "attributes": {
+                      "name": "uint256",
+                      "type": "uint256"
+                    },
+                    "id": 4537,
+                    "name": "ElementaryTypeName",
+                    "src": "1197:7:14"
+                  }
+                ],
+                "id": 4538,
+                "name": "VariableDeclaration",
+                "src": "1197:19:14"
+              }
+            ],
+            "id": 4539,
+            "name": "StructDefinition",
+            "src": "998:225:14"
           }
         ],
-        "scope": 4363,
-        "src": "2343:44:14"
+        "id": 4540,
+        "name": "ContractDefinition",
+        "src": "904:321:14"
+      },
+      {
+        "attributes": {
+          "baseContracts": [
+            null
+          ],
+          "contractDependencies": [
+            null
+          ],
+          "contractKind": "contract",
+          "documentation": null,
+          "fullyImplemented": true,
+          "linearizedBaseContracts": [
+            4561
+          ],
+          "name": "Epoch",
+          "scope": 4625
+        },
+        "children": [
+          {
+            "attributes": {
+              "canonicalName": "Epoch.Global",
+              "name": "Global",
+              "scope": 4561,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "constant": false,
+                  "name": "start",
+                  "scope": 4547,
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "type": "uint256",
+                  "value": null,
+                  "visibility": "internal"
+                },
+                "children": [
+                  {
+                    "attributes": {
+                      "name": "uint256",
+                      "type": "uint256"
+                    },
+                    "id": 4541,
+                    "name": "ElementaryTypeName",
+                    "src": "1272:7:14"
+                  }
+                ],
+                "id": 4542,
+                "name": "VariableDeclaration",
+                "src": "1272:13:14"
+              },
+              {
+                "attributes": {
+                  "constant": false,
+                  "name": "period",
+                  "scope": 4547,
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "type": "uint256",
+                  "value": null,
+                  "visibility": "internal"
+                },
+                "children": [
+                  {
+                    "attributes": {
+                      "name": "uint256",
+                      "type": "uint256"
+                    },
+                    "id": 4543,
+                    "name": "ElementaryTypeName",
+                    "src": "1295:7:14"
+                  }
+                ],
+                "id": 4544,
+                "name": "VariableDeclaration",
+                "src": "1295:14:14"
+              },
+              {
+                "attributes": {
+                  "constant": false,
+                  "name": "current",
+                  "scope": 4547,
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "type": "uint256",
+                  "value": null,
+                  "visibility": "internal"
+                },
+                "children": [
+                  {
+                    "attributes": {
+                      "name": "uint256",
+                      "type": "uint256"
+                    },
+                    "id": 4545,
+                    "name": "ElementaryTypeName",
+                    "src": "1319:7:14"
+                  }
+                ],
+                "id": 4546,
+                "name": "VariableDeclaration",
+                "src": "1319:15:14"
+              }
+            ],
+            "id": 4547,
+            "name": "StructDefinition",
+            "src": "1248:93:14"
+          },
+          {
+            "attributes": {
+              "canonicalName": "Epoch.Coupons",
+              "name": "Coupons",
+              "scope": 4561,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "constant": false,
+                  "name": "outstanding",
+                  "scope": 4555,
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "type": "uint256",
+                  "value": null,
+                  "visibility": "internal"
+                },
+                "children": [
+                  {
+                    "attributes": {
+                      "name": "uint256",
+                      "type": "uint256"
+                    },
+                    "id": 4548,
+                    "name": "ElementaryTypeName",
+                    "src": "1372:7:14"
+                  }
+                ],
+                "id": 4549,
+                "name": "VariableDeclaration",
+                "src": "1372:19:14"
+              },
+              {
+                "attributes": {
+                  "constant": false,
+                  "name": "expiration",
+                  "scope": 4555,
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "type": "uint256",
+                  "value": null,
+                  "visibility": "internal"
+                },
+                "children": [
+                  {
+                    "attributes": {
+                      "name": "uint256",
+                      "type": "uint256"
+                    },
+                    "id": 4550,
+                    "name": "ElementaryTypeName",
+                    "src": "1401:7:14"
+                  }
+                ],
+                "id": 4551,
+                "name": "VariableDeclaration",
+                "src": "1401:18:14"
+              },
+              {
+                "attributes": {
+                  "constant": false,
+                  "name": "expiring",
+                  "scope": 4555,
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "type": "uint256[]",
+                  "value": null,
+                  "visibility": "internal"
+                },
+                "children": [
+                  {
+                    "attributes": {
+                      "length": null,
+                      "type": "uint256[]"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint256",
+                          "type": "uint256"
+                        },
+                        "id": 4552,
+                        "name": "ElementaryTypeName",
+                        "src": "1429:7:14"
+                      }
+                    ],
+                    "id": 4553,
+                    "name": "ArrayTypeName",
+                    "src": "1429:9:14"
+                  }
+                ],
+                "id": 4554,
+                "name": "VariableDeclaration",
+                "src": "1429:18:14"
+              }
+            ],
+            "id": 4555,
+            "name": "StructDefinition",
+            "src": "1347:107:14"
+          },
+          {
+            "attributes": {
+              "canonicalName": "Epoch.State",
+              "name": "State",
+              "scope": 4561,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "constant": false,
+                  "name": "bonded",
+                  "scope": 4560,
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "type": "uint256",
+                  "value": null,
+                  "visibility": "internal"
+                },
+                "children": [
+                  {
+                    "attributes": {
+                      "name": "uint256",
+                      "type": "uint256"
+                    },
+                    "id": 4556,
+                    "name": "ElementaryTypeName",
+                    "src": "1483:7:14"
+                  }
+                ],
+                "id": 4557,
+                "name": "VariableDeclaration",
+                "src": "1483:14:14"
+              },
+              {
+                "attributes": {
+                  "constant": false,
+                  "name": "coupons",
+                  "scope": 4560,
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "type": "struct Epoch.Coupons",
+                  "value": null,
+                  "visibility": "internal"
+                },
+                "children": [
+                  {
+                    "attributes": {
+                      "contractScope": null,
+                      "name": "Coupons",
+                      "referencedDeclaration": 4555,
+                      "type": "struct Epoch.Coupons"
+                    },
+                    "id": 4558,
+                    "name": "UserDefinedTypeName",
+                    "src": "1507:7:14"
+                  }
+                ],
+                "id": 4559,
+                "name": "VariableDeclaration",
+                "src": "1507:15:14"
+              }
+            ],
+            "id": 4560,
+            "name": "StructDefinition",
+            "src": "1460:69:14"
+          }
+        ],
+        "id": 4561,
+        "name": "ContractDefinition",
+        "src": "1227:304:14"
+      },
+      {
+        "attributes": {
+          "baseContracts": [
+            null
+          ],
+          "contractDependencies": [
+            null
+          ],
+          "contractKind": "contract",
+          "documentation": null,
+          "fullyImplemented": true,
+          "linearizedBaseContracts": [
+            4581
+          ],
+          "name": "Candidate",
+          "scope": 4625
+        },
+        "children": [
+          {
+            "attributes": {
+              "canonicalName": "Candidate.Vote",
+              "name": "Vote"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "name": "UNDECIDED"
+                },
+                "id": 4562,
+                "name": "EnumValue",
+                "src": "1578:9:14"
+              },
+              {
+                "attributes": {
+                  "name": "APPROVE"
+                },
+                "id": 4563,
+                "name": "EnumValue",
+                "src": "1597:7:14"
+              },
+              {
+                "attributes": {
+                  "name": "REJECT"
+                },
+                "id": 4564,
+                "name": "EnumValue",
+                "src": "1614:6:14"
+              }
+            ],
+            "id": 4565,
+            "name": "EnumDefinition",
+            "src": "1558:68:14"
+          },
+          {
+            "attributes": {
+              "canonicalName": "Candidate.State",
+              "name": "State",
+              "scope": 4581,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "constant": false,
+                  "name": "start",
+                  "scope": 4580,
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "type": "uint256",
+                  "value": null,
+                  "visibility": "internal"
+                },
+                "children": [
+                  {
+                    "attributes": {
+                      "name": "uint256",
+                      "type": "uint256"
+                    },
+                    "id": 4566,
+                    "name": "ElementaryTypeName",
+                    "src": "1655:7:14"
+                  }
+                ],
+                "id": 4567,
+                "name": "VariableDeclaration",
+                "src": "1655:13:14"
+              },
+              {
+                "attributes": {
+                  "constant": false,
+                  "name": "period",
+                  "scope": 4580,
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "type": "uint256",
+                  "value": null,
+                  "visibility": "internal"
+                },
+                "children": [
+                  {
+                    "attributes": {
+                      "name": "uint256",
+                      "type": "uint256"
+                    },
+                    "id": 4568,
+                    "name": "ElementaryTypeName",
+                    "src": "1678:7:14"
+                  }
+                ],
+                "id": 4569,
+                "name": "VariableDeclaration",
+                "src": "1678:14:14"
+              },
+              {
+                "attributes": {
+                  "constant": false,
+                  "name": "approve",
+                  "scope": 4580,
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "type": "uint256",
+                  "value": null,
+                  "visibility": "internal"
+                },
+                "children": [
+                  {
+                    "attributes": {
+                      "name": "uint256",
+                      "type": "uint256"
+                    },
+                    "id": 4570,
+                    "name": "ElementaryTypeName",
+                    "src": "1702:7:14"
+                  }
+                ],
+                "id": 4571,
+                "name": "VariableDeclaration",
+                "src": "1702:15:14"
+              },
+              {
+                "attributes": {
+                  "constant": false,
+                  "name": "reject",
+                  "scope": 4580,
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "type": "uint256",
+                  "value": null,
+                  "visibility": "internal"
+                },
+                "children": [
+                  {
+                    "attributes": {
+                      "name": "uint256",
+                      "type": "uint256"
+                    },
+                    "id": 4572,
+                    "name": "ElementaryTypeName",
+                    "src": "1727:7:14"
+                  }
+                ],
+                "id": 4573,
+                "name": "VariableDeclaration",
+                "src": "1727:14:14"
+              },
+              {
+                "attributes": {
+                  "constant": false,
+                  "name": "votes",
+                  "scope": 4580,
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "type": "mapping(address => enum Candidate.Vote)",
+                  "value": null,
+                  "visibility": "internal"
+                },
+                "children": [
+                  {
+                    "attributes": {
+                      "type": "mapping(address => enum Candidate.Vote)"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "address",
+                          "type": "address"
+                        },
+                        "id": 4574,
+                        "name": "ElementaryTypeName",
+                        "src": "1759:7:14"
+                      },
+                      {
+                        "attributes": {
+                          "contractScope": null,
+                          "name": "Vote",
+                          "referencedDeclaration": 4565,
+                          "type": "enum Candidate.Vote"
+                        },
+                        "id": 4575,
+                        "name": "UserDefinedTypeName",
+                        "src": "1770:4:14"
+                      }
+                    ],
+                    "id": 4576,
+                    "name": "Mapping",
+                    "src": "1751:24:14"
+                  }
+                ],
+                "id": 4577,
+                "name": "VariableDeclaration",
+                "src": "1751:30:14"
+              },
+              {
+                "attributes": {
+                  "constant": false,
+                  "name": "initialized",
+                  "scope": 4580,
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "type": "bool",
+                  "value": null,
+                  "visibility": "internal"
+                },
+                "children": [
+                  {
+                    "attributes": {
+                      "name": "bool",
+                      "type": "bool"
+                    },
+                    "id": 4578,
+                    "name": "ElementaryTypeName",
+                    "src": "1791:4:14"
+                  }
+                ],
+                "id": 4579,
+                "name": "VariableDeclaration",
+                "src": "1791:16:14"
+              }
+            ],
+            "id": 4580,
+            "name": "StructDefinition",
+            "src": "1632:182:14"
+          }
+        ],
+        "id": 4581,
+        "name": "ContractDefinition",
+        "src": "1533:283:14"
+      },
+      {
+        "attributes": {
+          "baseContracts": [
+            null
+          ],
+          "contractDependencies": [
+            null
+          ],
+          "contractKind": "contract",
+          "documentation": null,
+          "fullyImplemented": true,
+          "linearizedBaseContracts": [
+            4621
+          ],
+          "name": "Storage",
+          "scope": 4625
+        },
+        "children": [
+          {
+            "attributes": {
+              "canonicalName": "Storage.Provider",
+              "name": "Provider",
+              "scope": 4621,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "constant": false,
+                  "name": "dollar",
+                  "scope": 4588,
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "type": "contract IDollar",
+                  "value": null,
+                  "visibility": "internal"
+                },
+                "children": [
+                  {
+                    "attributes": {
+                      "contractScope": null,
+                      "name": "IDollar",
+                      "referencedDeclaration": 10846,
+                      "type": "contract IDollar"
+                    },
+                    "id": 4582,
+                    "name": "UserDefinedTypeName",
+                    "src": "1867:7:14"
+                  }
+                ],
+                "id": 4583,
+                "name": "VariableDeclaration",
+                "src": "1867:14:14"
+              },
+              {
+                "attributes": {
+                  "constant": false,
+                  "name": "oracle",
+                  "scope": 4588,
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "type": "contract IOracle",
+                  "value": null,
+                  "visibility": "internal"
+                },
+                "children": [
+                  {
+                    "attributes": {
+                      "contractScope": null,
+                      "name": "IOracle",
+                      "referencedDeclaration": 8873,
+                      "type": "contract IOracle"
+                    },
+                    "id": 4584,
+                    "name": "UserDefinedTypeName",
+                    "src": "1891:7:14"
+                  }
+                ],
+                "id": 4585,
+                "name": "VariableDeclaration",
+                "src": "1891:14:14"
+              },
+              {
+                "attributes": {
+                  "constant": false,
+                  "name": "pool",
+                  "scope": 4588,
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "type": "address",
+                  "value": null,
+                  "visibility": "internal"
+                },
+                "children": [
+                  {
+                    "attributes": {
+                      "name": "address",
+                      "stateMutability": "nonpayable",
+                      "type": "address"
+                    },
+                    "id": 4586,
+                    "name": "ElementaryTypeName",
+                    "src": "1915:7:14"
+                  }
+                ],
+                "id": 4587,
+                "name": "VariableDeclaration",
+                "src": "1915:12:14"
+              }
+            ],
+            "id": 4588,
+            "name": "StructDefinition",
+            "src": "1841:93:14"
+          },
+          {
+            "attributes": {
+              "canonicalName": "Storage.Balance",
+              "name": "Balance",
+              "scope": 4621,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "constant": false,
+                  "name": "supply",
+                  "scope": 4601,
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "type": "uint256",
+                  "value": null,
+                  "visibility": "internal"
+                },
+                "children": [
+                  {
+                    "attributes": {
+                      "name": "uint256",
+                      "type": "uint256"
+                    },
+                    "id": 4589,
+                    "name": "ElementaryTypeName",
+                    "src": "1965:7:14"
+                  }
+                ],
+                "id": 4590,
+                "name": "VariableDeclaration",
+                "src": "1965:14:14"
+              },
+              {
+                "attributes": {
+                  "constant": false,
+                  "name": "bonded",
+                  "scope": 4601,
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "type": "uint256",
+                  "value": null,
+                  "visibility": "internal"
+                },
+                "children": [
+                  {
+                    "attributes": {
+                      "name": "uint256",
+                      "type": "uint256"
+                    },
+                    "id": 4591,
+                    "name": "ElementaryTypeName",
+                    "src": "1989:7:14"
+                  }
+                ],
+                "id": 4592,
+                "name": "VariableDeclaration",
+                "src": "1989:14:14"
+              },
+              {
+                "attributes": {
+                  "constant": false,
+                  "name": "staged",
+                  "scope": 4601,
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "type": "uint256",
+                  "value": null,
+                  "visibility": "internal"
+                },
+                "children": [
+                  {
+                    "attributes": {
+                      "name": "uint256",
+                      "type": "uint256"
+                    },
+                    "id": 4593,
+                    "name": "ElementaryTypeName",
+                    "src": "2013:7:14"
+                  }
+                ],
+                "id": 4594,
+                "name": "VariableDeclaration",
+                "src": "2013:14:14"
+              },
+              {
+                "attributes": {
+                  "constant": false,
+                  "name": "redeemable",
+                  "scope": 4601,
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "type": "uint256",
+                  "value": null,
+                  "visibility": "internal"
+                },
+                "children": [
+                  {
+                    "attributes": {
+                      "name": "uint256",
+                      "type": "uint256"
+                    },
+                    "id": 4595,
+                    "name": "ElementaryTypeName",
+                    "src": "2037:7:14"
+                  }
+                ],
+                "id": 4596,
+                "name": "VariableDeclaration",
+                "src": "2037:18:14"
+              },
+              {
+                "attributes": {
+                  "constant": false,
+                  "name": "debt",
+                  "scope": 4601,
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "type": "uint256",
+                  "value": null,
+                  "visibility": "internal"
+                },
+                "children": [
+                  {
+                    "attributes": {
+                      "name": "uint256",
+                      "type": "uint256"
+                    },
+                    "id": 4597,
+                    "name": "ElementaryTypeName",
+                    "src": "2065:7:14"
+                  }
+                ],
+                "id": 4598,
+                "name": "VariableDeclaration",
+                "src": "2065:12:14"
+              },
+              {
+                "attributes": {
+                  "constant": false,
+                  "name": "coupons",
+                  "scope": 4601,
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "type": "uint256",
+                  "value": null,
+                  "visibility": "internal"
+                },
+                "children": [
+                  {
+                    "attributes": {
+                      "name": "uint256",
+                      "type": "uint256"
+                    },
+                    "id": 4599,
+                    "name": "ElementaryTypeName",
+                    "src": "2087:7:14"
+                  }
+                ],
+                "id": 4600,
+                "name": "VariableDeclaration",
+                "src": "2087:15:14"
+              }
+            ],
+            "id": 4601,
+            "name": "StructDefinition",
+            "src": "1940:169:14"
+          },
+          {
+            "attributes": {
+              "canonicalName": "Storage.State",
+              "name": "State",
+              "scope": 4621,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "constant": false,
+                  "name": "epoch",
+                  "scope": 4620,
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "type": "struct Epoch.Global",
+                  "value": null,
+                  "visibility": "internal"
+                },
+                "children": [
+                  {
+                    "attributes": {
+                      "contractScope": null,
+                      "name": "Epoch.Global",
+                      "referencedDeclaration": 4547,
+                      "type": "struct Epoch.Global"
+                    },
+                    "id": 4602,
+                    "name": "UserDefinedTypeName",
+                    "src": "2138:12:14"
+                  }
+                ],
+                "id": 4603,
+                "name": "VariableDeclaration",
+                "src": "2138:18:14"
+              },
+              {
+                "attributes": {
+                  "constant": false,
+                  "name": "balance",
+                  "scope": 4620,
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "type": "struct Storage.Balance",
+                  "value": null,
+                  "visibility": "internal"
+                },
+                "children": [
+                  {
+                    "attributes": {
+                      "contractScope": null,
+                      "name": "Balance",
+                      "referencedDeclaration": 4601,
+                      "type": "struct Storage.Balance"
+                    },
+                    "id": 4604,
+                    "name": "UserDefinedTypeName",
+                    "src": "2166:7:14"
+                  }
+                ],
+                "id": 4605,
+                "name": "VariableDeclaration",
+                "src": "2166:15:14"
+              },
+              {
+                "attributes": {
+                  "constant": false,
+                  "name": "provider",
+                  "scope": 4620,
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "type": "struct Storage.Provider",
+                  "value": null,
+                  "visibility": "internal"
+                },
+                "children": [
+                  {
+                    "attributes": {
+                      "contractScope": null,
+                      "name": "Provider",
+                      "referencedDeclaration": 4588,
+                      "type": "struct Storage.Provider"
+                    },
+                    "id": 4606,
+                    "name": "UserDefinedTypeName",
+                    "src": "2191:8:14"
+                  }
+                ],
+                "id": 4607,
+                "name": "VariableDeclaration",
+                "src": "2191:17:14"
+              },
+              {
+                "attributes": {
+                  "constant": false,
+                  "name": "accounts",
+                  "scope": 4620,
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "type": "mapping(address => struct Account.State)",
+                  "value": null,
+                  "visibility": "internal"
+                },
+                "children": [
+                  {
+                    "attributes": {
+                      "type": "mapping(address => struct Account.State)"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "address",
+                          "type": "address"
+                        },
+                        "id": 4608,
+                        "name": "ElementaryTypeName",
+                        "src": "2227:7:14"
+                      },
+                      {
+                        "attributes": {
+                          "contractScope": null,
+                          "name": "Account.State",
+                          "referencedDeclaration": 4539,
+                          "type": "struct Account.State"
+                        },
+                        "id": 4609,
+                        "name": "UserDefinedTypeName",
+                        "src": "2238:13:14"
+                      }
+                    ],
+                    "id": 4610,
+                    "name": "Mapping",
+                    "src": "2219:33:14"
+                  }
+                ],
+                "id": 4611,
+                "name": "VariableDeclaration",
+                "src": "2219:42:14"
+              },
+              {
+                "attributes": {
+                  "constant": false,
+                  "name": "epochs",
+                  "scope": 4620,
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "type": "mapping(uint256 => struct Epoch.State)",
+                  "value": null,
+                  "visibility": "internal"
+                },
+                "children": [
+                  {
+                    "attributes": {
+                      "type": "mapping(uint256 => struct Epoch.State)"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "uint256",
+                          "type": "uint256"
+                        },
+                        "id": 4612,
+                        "name": "ElementaryTypeName",
+                        "src": "2279:7:14"
+                      },
+                      {
+                        "attributes": {
+                          "contractScope": null,
+                          "name": "Epoch.State",
+                          "referencedDeclaration": 4560,
+                          "type": "struct Epoch.State"
+                        },
+                        "id": 4613,
+                        "name": "UserDefinedTypeName",
+                        "src": "2290:11:14"
+                      }
+                    ],
+                    "id": 4614,
+                    "name": "Mapping",
+                    "src": "2271:31:14"
+                  }
+                ],
+                "id": 4615,
+                "name": "VariableDeclaration",
+                "src": "2271:38:14"
+              },
+              {
+                "attributes": {
+                  "constant": false,
+                  "name": "candidates",
+                  "scope": 4620,
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "type": "mapping(address => struct Candidate.State)",
+                  "value": null,
+                  "visibility": "internal"
+                },
+                "children": [
+                  {
+                    "attributes": {
+                      "type": "mapping(address => struct Candidate.State)"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "address",
+                          "type": "address"
+                        },
+                        "id": 4616,
+                        "name": "ElementaryTypeName",
+                        "src": "2327:7:14"
+                      },
+                      {
+                        "attributes": {
+                          "contractScope": null,
+                          "name": "Candidate.State",
+                          "referencedDeclaration": 4580,
+                          "type": "struct Candidate.State"
+                        },
+                        "id": 4617,
+                        "name": "UserDefinedTypeName",
+                        "src": "2338:15:14"
+                      }
+                    ],
+                    "id": 4618,
+                    "name": "Mapping",
+                    "src": "2319:35:14"
+                  }
+                ],
+                "id": 4619,
+                "name": "VariableDeclaration",
+                "src": "2319:46:14"
+              }
+            ],
+            "id": 4620,
+            "name": "StructDefinition",
+            "src": "2115:257:14"
+          }
+        ],
+        "id": 4621,
+        "name": "ContractDefinition",
+        "src": "1818:556:14"
+      },
+      {
+        "attributes": {
+          "baseContracts": [
+            null
+          ],
+          "contractDependencies": [
+            null
+          ],
+          "contractKind": "contract",
+          "documentation": null,
+          "fullyImplemented": true,
+          "linearizedBaseContracts": [
+            4624
+          ],
+          "name": "State",
+          "scope": 4625
+        },
+        "children": [
+          {
+            "attributes": {
+              "constant": false,
+              "name": "_state",
+              "scope": 4624,
+              "stateVariable": true,
+              "storageLocation": "default",
+              "type": "struct Storage.State",
+              "value": null,
+              "visibility": "internal"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "contractScope": null,
+                  "name": "Storage.State",
+                  "referencedDeclaration": 4620,
+                  "type": "struct Storage.State"
+                },
+                "id": 4622,
+                "name": "UserDefinedTypeName",
+                "src": "2397:13:14"
+              }
+            ],
+            "id": 4623,
+            "name": "VariableDeclaration",
+            "src": "2397:20:14"
+          }
+        ],
+        "id": 4624,
+        "name": "ContractDefinition",
+        "src": "2376:44:14"
       }
     ],
-    "src": "646:1742:14"
+    "id": 4625,
+    "name": "SourceUnit",
+    "src": "679:1742:14"
   },
   "compiler": {
     "name": "solc",
     "version": "0.5.17+commit.d19bba13.Emscripten.clang"
   },
   "networks": {},
-  "schemaVersion": "3.3.1",
-  "updatedAt": "2020-11-25T22:34:45.227Z",
+  "schemaVersion": "3.3.3",
+  "updatedAt": "2020-12-31T12:42:20.769Z",
   "devdoc": {
     "methods": {}
   },

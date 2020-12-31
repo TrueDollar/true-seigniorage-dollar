@@ -29,7 +29,7 @@ describe('State', function () {
 
     describe('symbol', function () {
       it('increments total bonded', async function () {
-        expect(await this.setters.symbol()).to.be.equal("DSDS");
+        expect(await this.setters.symbol()).to.be.equal("TSDS");
       });
     });
 

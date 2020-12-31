@@ -1,30 +1,30 @@
-# Dynamic Set Dollar
+# True Seigniorage Dollar
 
-- shorthand name: `dynamic dollar`
-- full name: `Dynamic Set Dollar`
-- symbol: `DSD`
+- shorthand name: `true dollar`
+- full name: `True Seigniorage Dollar`
+- symbol: `TSD`
 - decimals: `18`
 - icon:
 
-![DSD Logo](https://dsd.finance/logo.png)
+![TSD Logo](https://truedollar.finance/hero.png)
 
 ## contracts
 ### mainnet
-- `0x6Bf977ED1A09214E6209F4EA5f525261f1A2690a` **DAO (DSDS)**
-- `0xbd2f0cd039e0bfcf88901c98c0bfac5ab27566e3` **DSD**
-- `0xe2e279d1b911bad880d1104a750dfcd262fb6cf4` **Oracle**
-- `0x66e33d2605c5fb25ebb7cd7528e7997b0afa55e8` **UniswapV2 USDC:DSD Pair**
-- `0x70A87e1b97436D2F194B8B9EBF337bFc7521C70f` **LP Incentivation Pool**
+- `0x2AE21632cBcC5A2835238258B8bfb627beD139Fd` **DAO (TSDS)**
+- `0x4846239FDF4D4C1AEB26729fa064B0205acA90e1` **TSD**
+- `0x465a427A3470363539C38D4af316b4A4196caEC4` **Oracle**
+- `0x55b0C2EeE5d48Af6d2a65507319d20453E9f97b6` **UniswapV2 USDC:TSD Pair**
+- `0x68caaD331bA8250Aef88228F87846652822AE4b5` **LP Incentivation Pool**
 
 ## audit of forked codebase
 
-is available [here](https://github.com/dynamicdollardevs/dsd/blob/master/audit/REP-Dollar-06-11-20.pdf).
+is available [here](https://github.com/TrueDollar/true-seigniorage-dollar/blob/master/audit/REP-Dollar-06-11-20.pdf).
 
 ## disclaimer
 this project is an experiment - the protocol is audited, and we've put a significant amount of work into testing as well as generally de-risking the design of its core mechanism, however participants should take great caution as bugs resulting in loss of funds are always a possibility.
 
 ```
-Copyright 2020 Dynamic Dollar Devs, based on the works of the Empty Set Squad
+Copyright 2020 True Seigniorage Dollar Devs, based on the works of the Empty Set Squad and Dynamic Dollar Devs
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use the included code except in compliance with the License.

@@ -23,25 +23,25 @@
       "type": "function"
     }
   ],
-  "metadata": "{\"compiler\":{\"version\":\"0.5.17+commit.d19bba13\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"constant\":true,\"inputs\":[{\"internalType\":\"address\",\"name\":\"_account\",\"type\":\"address\"}],\"name\":\"isBlacklisted\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/home/name/Desktop/Files/projects/dynamic/dollar/protocol/contracts/oracle/IUSDC.sol\":\"IUSDC\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"/home/name/Desktop/Files/projects/dynamic/dollar/protocol/contracts/oracle/IUSDC.sol\":{\"keccak256\":\"0x8edf24603053c85f9d0686597545eac473990422f8ad771cd44d86fafec5c926\",\"urls\":[\"bzz-raw://574ffb31ef6fefa1cea0f5682daee7cac06af89a3995f5f771a663ffd88ae232\",\"dweb:/ipfs/QmUYsXBXyEWLTyNE7qTtzdhdrMrtvHeBb3s5gGKzPomGNX\"]}},\"version\":1}",
+  "metadata": "{\"compiler\":{\"version\":\"0.5.17+commit.d19bba13\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"constant\":true,\"inputs\":[{\"internalType\":\"address\",\"name\":\"_account\",\"type\":\"address\"}],\"name\":\"isBlacklisted\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"methods\":{}},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/Volumes/Data/Code/planb/true-seigniorage-dollar/protocol/contracts/oracle/IUSDC.sol\":\"IUSDC\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"/Volumes/Data/Code/planb/true-seigniorage-dollar/protocol/contracts/oracle/IUSDC.sol\":{\"keccak256\":\"0xef3ec0f083d60f8b26e1e1381011bd1b7e68b098c75bc13aaf3b806b43702b83\",\"urls\":[\"bzz-raw://85ed37cd33184e3043f5c8694875366b94d59996914219b4f8cc02041add1380\",\"dweb:/ipfs/QmUfYmd5mLY9HwGfeutCXAkZGUYNrd6B3gi4vNc8s2w9St\"]}},\"version\":1}",
   "bytecode": "0x",
   "deployedBytecode": "0x",
   "sourceMap": "",
   "deployedSourceMap": "",
-  "source": "/*\n    Copyright 2020 Dynamic Dollar Devs, based on the works of the Empty Set Squad\n\n    Licensed under the Apache License, Version 2.0 (the \"License\");\n    you may not use this file except in compliance with the License.\n    You may obtain a copy of the License at\n\n    http://www.apache.org/licenses/LICENSE-2.0\n\n    Unless required by applicable law or agreed to in writing, software\n    distributed under the License is distributed on an \"AS IS\" BASIS,\n    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n    See the License for the specific language governing permissions and\n    limitations under the License.\n*/\n\npragma solidity ^0.5.17;\n\ncontract IUSDC {\n    function isBlacklisted(address _account) external view returns (bool);\n}",
-  "sourcePath": "/home/name/Desktop/Files/projects/dynamic/dollar/protocol/contracts/oracle/IUSDC.sol",
+  "source": "/*\n    Copyright 2020 True Seigniorage Dollar Devs, based on the works of the Empty Set Squad and Dynamic Dollar Devs\n\n    Licensed under the Apache License, Version 2.0 (the \"License\");\n    you may not use this file except in compliance with the License.\n    You may obtain a copy of the License at\n\n    http://www.apache.org/licenses/LICENSE-2.0\n\n    Unless required by applicable law or agreed to in writing, software\n    distributed under the License is distributed on an \"AS IS\" BASIS,\n    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n    See the License for the specific language governing permissions and\n    limitations under the License.\n*/\n\npragma solidity ^0.5.17;\n\ncontract IUSDC {\n    function isBlacklisted(address _account) external view returns (bool);\n}",
+  "sourcePath": "/Volumes/Data/Code/planb/true-seigniorage-dollar/protocol/contracts/oracle/IUSDC.sol",
   "ast": {
-    "absolutePath": "/home/name/Desktop/Files/projects/dynamic/dollar/protocol/contracts/oracle/IUSDC.sol",
+    "absolutePath": "/Volumes/Data/Code/planb/true-seigniorage-dollar/protocol/contracts/oracle/IUSDC.sol",
     "exportedSymbols": {
       "IUSDC": [
-        8621
+        8883
       ]
     },
-    "id": 8622,
+    "id": 8884,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 8613,
+        "id": 8875,
         "literals": [
           "solidity",
           "^",
@@ -49,7 +49,7 @@
           ".17"
         ],
         "nodeType": "PragmaDirective",
-        "src": "646:24:43"
+        "src": "679:24:43"
       },
       {
         "baseContracts": [],
@@ -57,9 +57,9 @@
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": false,
-        "id": 8621,
+        "id": 8883,
         "linearizedBaseContracts": [
-          8621
+          8883
         ],
         "name": "IUSDC",
         "nodeType": "ContractDefinition",
@@ -67,23 +67,23 @@
           {
             "body": null,
             "documentation": null,
-            "id": 8620,
+            "id": 8882,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "isBlacklisted",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 8616,
+              "id": 8878,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 8615,
+                  "id": 8877,
                   "name": "_account",
                   "nodeType": "VariableDeclaration",
-                  "scope": 8620,
-                  "src": "716:16:43",
+                  "scope": 8882,
+                  "src": "749:16:43",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -91,10 +91,10 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 8614,
+                    "id": 8876,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "716:7:43",
+                    "src": "749:7:43",
                     "stateMutability": "nonpayable",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
@@ -105,19 +105,19 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "715:18:43"
+              "src": "748:18:43"
             },
             "returnParameters": {
-              "id": 8619,
+              "id": 8881,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 8618,
+                  "id": 8880,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 8620,
-                  "src": "757:4:43",
+                  "scope": 8882,
+                  "src": "790:4:43",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -125,10 +125,10 @@
                     "typeString": "bool"
                   },
                   "typeName": {
-                    "id": 8617,
+                    "id": 8879,
                     "name": "bool",
                     "nodeType": "ElementaryTypeName",
-                    "src": "757:4:43",
+                    "src": "790:4:43",
                     "typeDescriptions": {
                       "typeIdentifier": "t_bool",
                       "typeString": "bool"
@@ -138,151 +138,168 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "756:6:43"
+              "src": "789:6:43"
             },
-            "scope": 8621,
-            "src": "693:70:43",
+            "scope": 8883,
+            "src": "726:70:43",
             "stateMutability": "view",
             "superFunction": null,
             "visibility": "external"
           }
         ],
-        "scope": 8622,
-        "src": "672:93:43"
+        "scope": 8884,
+        "src": "705:93:43"
       }
     ],
-    "src": "646:119:43"
+    "src": "679:119:43"
   },
   "legacyAST": {
-    "absolutePath": "/home/name/Desktop/Files/projects/dynamic/dollar/protocol/contracts/oracle/IUSDC.sol",
-    "exportedSymbols": {
-      "IUSDC": [
-        8621
-      ]
+    "attributes": {
+      "absolutePath": "/Volumes/Data/Code/planb/true-seigniorage-dollar/protocol/contracts/oracle/IUSDC.sol",
+      "exportedSymbols": {
+        "IUSDC": [
+          8883
+        ]
+      }
     },
-    "id": 8622,
-    "nodeType": "SourceUnit",
-    "nodes": [
+    "children": [
       {
-        "id": 8613,
-        "literals": [
-          "solidity",
-          "^",
-          "0.5",
-          ".17"
-        ],
-        "nodeType": "PragmaDirective",
-        "src": "646:24:43"
+        "attributes": {
+          "literals": [
+            "solidity",
+            "^",
+            "0.5",
+            ".17"
+          ]
+        },
+        "id": 8875,
+        "name": "PragmaDirective",
+        "src": "679:24:43"
       },
       {
-        "baseContracts": [],
-        "contractDependencies": [],
-        "contractKind": "contract",
-        "documentation": null,
-        "fullyImplemented": false,
-        "id": 8621,
-        "linearizedBaseContracts": [
-          8621
-        ],
-        "name": "IUSDC",
-        "nodeType": "ContractDefinition",
-        "nodes": [
+        "attributes": {
+          "baseContracts": [
+            null
+          ],
+          "contractDependencies": [
+            null
+          ],
+          "contractKind": "contract",
+          "documentation": null,
+          "fullyImplemented": false,
+          "linearizedBaseContracts": [
+            8883
+          ],
+          "name": "IUSDC",
+          "scope": 8884
+        },
+        "children": [
           {
-            "body": null,
-            "documentation": null,
-            "id": 8620,
-            "implemented": false,
-            "kind": "function",
-            "modifiers": [],
-            "name": "isBlacklisted",
-            "nodeType": "FunctionDefinition",
-            "parameters": {
-              "id": 8616,
-              "nodeType": "ParameterList",
-              "parameters": [
-                {
-                  "constant": false,
-                  "id": 8615,
-                  "name": "_account",
-                  "nodeType": "VariableDeclaration",
-                  "scope": 8620,
-                  "src": "716:16:43",
-                  "stateVariable": false,
-                  "storageLocation": "default",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_address",
-                    "typeString": "address"
-                  },
-                  "typeName": {
-                    "id": 8614,
-                    "name": "address",
-                    "nodeType": "ElementaryTypeName",
-                    "src": "716:7:43",
-                    "stateMutability": "nonpayable",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_address",
-                      "typeString": "address"
-                    }
-                  },
-                  "value": null,
-                  "visibility": "internal"
-                }
+            "attributes": {
+              "body": null,
+              "documentation": null,
+              "implemented": false,
+              "isConstructor": false,
+              "kind": "function",
+              "modifiers": [
+                null
               ],
-              "src": "715:18:43"
+              "name": "isBlacklisted",
+              "scope": 8883,
+              "stateMutability": "view",
+              "superFunction": null,
+              "visibility": "external"
             },
-            "returnParameters": {
-              "id": 8619,
-              "nodeType": "ParameterList",
-              "parameters": [
-                {
-                  "constant": false,
-                  "id": 8618,
-                  "name": "",
-                  "nodeType": "VariableDeclaration",
-                  "scope": 8620,
-                  "src": "757:4:43",
-                  "stateVariable": false,
-                  "storageLocation": "default",
-                  "typeDescriptions": {
-                    "typeIdentifier": "t_bool",
-                    "typeString": "bool"
-                  },
-                  "typeName": {
-                    "id": 8617,
-                    "name": "bool",
-                    "nodeType": "ElementaryTypeName",
-                    "src": "757:4:43",
-                    "typeDescriptions": {
-                      "typeIdentifier": "t_bool",
-                      "typeString": "bool"
-                    }
-                  },
-                  "value": null,
-                  "visibility": "internal"
-                }
-              ],
-              "src": "756:6:43"
-            },
-            "scope": 8621,
-            "src": "693:70:43",
-            "stateMutability": "view",
-            "superFunction": null,
-            "visibility": "external"
+            "children": [
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "_account",
+                      "scope": 8882,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "address",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "address",
+                          "stateMutability": "nonpayable",
+                          "type": "address"
+                        },
+                        "id": 8876,
+                        "name": "ElementaryTypeName",
+                        "src": "749:7:43"
+                      }
+                    ],
+                    "id": 8877,
+                    "name": "VariableDeclaration",
+                    "src": "749:16:43"
+                  }
+                ],
+                "id": 8878,
+                "name": "ParameterList",
+                "src": "748:18:43"
+              },
+              {
+                "children": [
+                  {
+                    "attributes": {
+                      "constant": false,
+                      "name": "",
+                      "scope": 8882,
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "type": "bool",
+                      "value": null,
+                      "visibility": "internal"
+                    },
+                    "children": [
+                      {
+                        "attributes": {
+                          "name": "bool",
+                          "type": "bool"
+                        },
+                        "id": 8879,
+                        "name": "ElementaryTypeName",
+                        "src": "790:4:43"
+                      }
+                    ],
+                    "id": 8880,
+                    "name": "VariableDeclaration",
+                    "src": "790:4:43"
+                  }
+                ],
+                "id": 8881,
+                "name": "ParameterList",
+                "src": "789:6:43"
+              }
+            ],
+            "id": 8882,
+            "name": "FunctionDefinition",
+            "src": "726:70:43"
           }
         ],
-        "scope": 8622,
-        "src": "672:93:43"
+        "id": 8883,
+        "name": "ContractDefinition",
+        "src": "705:93:43"
       }
     ],
-    "src": "646:119:43"
+    "id": 8884,
+    "name": "SourceUnit",
+    "src": "679:119:43"
   },
   "compiler": {
     "name": "solc",
     "version": "0.5.17+commit.d19bba13.Emscripten.clang"
   },
   "networks": {},
-  "schemaVersion": "3.3.1",
-  "updatedAt": "2020-11-25T22:34:45.290Z",
+  "schemaVersion": "3.3.3",
+  "updatedAt": "2020-12-31T12:42:20.902Z",
   "devdoc": {
     "methods": {}
   },
